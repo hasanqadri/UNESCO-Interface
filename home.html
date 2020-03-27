@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+
+<head>
+    <!-- add stylesheets here-->
+    <link href="css/styling.css" rel="stylesheet">
+</head>
+
+<body onload="">
+
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+
+    <!-- Navbar (sit on top) -->
+    <div class="w3-top" >
+        <ul class="w3-navbar w3-cyan w3-wide w3-padding-0 w3-card-2 ">
+            <font color="white" font-family = "Impact, Charcoal, sans-serif">
+                <h3><img src = "./Data/logo.png" width="70px" height="40px" class="w3-margin-bot-logo">UNESCO Metrics</h3></font>
+        </ul>
+    </div>
+
+    <!-- Selector for years -->
+    <div  style="float: left; width:100%; display:inline;" class = "w3-margin-top-custom raisedbox">
+        <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
+            <option value="Default">Select Factor</option>
+            <option value="Population">Population</option>
+            <option value="Poverty">Poverty</option>
+            <option value="Etc">etc</option>
+        </select>
+        <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="view">
+            <option value="World">World</option>
+            <option value="Region">Region</option>
+            <option value="Country">Country</option>
+        </select>
+        <input placeholder="Specify region or country" type="text" id="inputRegion" name="inputRegion" class="w3-margin-left-custom"/>
+    </div>
+    </div>
+
+    <!-- Holds the left and right divs -->
+    <div class = "container " style = "width: 100%; clear:both; ">
+
+        <!-- Left div -->
+        <div class="innerContainer w3-card-4">
+            <h1 class="w3-margin-top  fontCustom w3-margin-bottom w3-center" id="head-title">Global Trends</h1>
+            <div class="lastLegend">
+                <!--We mess with the below svg for our drilldowns -->
+                <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 50 1150 650"></svg>
+            </div>
+            <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
+        </div>
+
+        <!-- Right div -->
+        <div class="innerContainer2 w3-card-4">
+            <div id="right-alt" style="width:100%;visibility:visible;display:block;">
+                <h5 class="w3-center w3-margin-top fontTitleSmall"></h5>
+                <div id="grid" class="w3-padding-left w3-padding-top w3-center"></div>
+
+                <h5 class="w3-center w3-margin-top fontTitleSmall"> Scatter plot or whatever</h5>
+                <!--Shubhi's idea here? -->
+                <svg></svg>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Remember to place javascript files we add below here -->
+
+<!-- add js libraries here-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script src="js/lib/jquery-ui.min.js"></script>
+<script src="js/lib/topojson.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/lib/queue.v1.min.js"></script>
+
+<!-- add custom js files here -->
+<script src="js/someExampleFile.js"></script>
+
+</html>
