@@ -5,9 +5,17 @@
 <head>
     <!-- add stylesheets here-->
     <link href="css/styling.css" rel="stylesheet">
+
+    <!--- External libs -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js'></script>
+    <script src="js/lib/d3-tip.js"></script>
+
 </head>
 
-<body onload="">
+<body onload="createWorldMap()">
 
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -45,7 +53,7 @@
             <h1 class="w3-margin-top  fontCustom w3-margin-bottom w3-center" id="head-title">Global Trends</h1>
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
-                <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 50 1150 650"></svg>
+                <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
         </div>
@@ -68,14 +76,12 @@
 
 <!-- add js libraries here-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
-<script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="js/lib/jquery-3.1.1.min.js"></script>
 <script src="js/lib/jquery-ui.min.js"></script>
 <script src="js/lib/topojson.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script src="js/lib/queue.v1.min.js"></script>
 
 <!-- add custom js files here -->
-<script src="js/someExampleFile.js"></script>
+<script src="js/world-map.js"></script>
 
 </html>
