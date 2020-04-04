@@ -3,14 +3,16 @@ var margin = {top: 50, right: 75, bottom: 75, left: 75}
   , height = 500 - margin.top - margin.bottom;
 
 function convert_row(d){
-    cols = Object.keys(d);
-    obj = {Variables: d.Variables};
-    for (c in cols){
+    cols_c = Object.keys(d);
+    
+    obj_c = {Variables: d.Variables};
+    console.log(obj_c);
+    for (c in cols_c){
         if (c > 0){
-            obj[cols[c]] = +d[cols[c]];
+            obj_c[cols_c[c]] = +d[cols_c[c]];
         }
     }
-    return obj;
+    return obj_c;
 }
 
 function convert_scatter_row(d){
@@ -27,20 +29,59 @@ function convert_scatter_row(d){
 d3.dsv(",", "../data/dummy_data_cor.csv", convert_row)
     .then(function(data){
         raw_data = data;
+        //indicator_data = d3.nest().key(function(d) {return d.Variables; }).entries(raw_data)
+        cols_c.splice(cols_c.indexOf('Variables'), 1);
         d3.dsv(",", "../data/dummy_data.csv", convert_scatter_row)
             .then(function(data){
                 scatter_data = data;
 
-        add_bar_chart("Indicator1");
+        add_select_box(cols_c);
+        for (col in cols_c){
+            add_bar_chart(cols_c[col])
+        }
+        // add_bar_chart(cols_c);
         add_scatter_chart("Indicator1","Indicator2");
         });
     });
+
+function add_select_box(){
+    d3.select("#correlationChart")
+        .append("text")
+        .attr("font-size", "12px")
+        .text("Select Indicator: ");
+
+    var selector = d3.select("#correlationChart")
+        .append("select", "svg")
+        .attr("id", "dropselector")
+        .style('margin-bottom','20px')
+        .selectAll("option")
+        .data(cols_c)
+        .enter().append("option")
+        .text(function(d) { return d; })
+        .attr("value", function (d, i) {
+            return d;
+        });
+
+    d3.select("#correlationChart").property("selectedIndex", cols_c);
+    d3.select("#correlationChart")
+        .on("change", function(d) {
+            var selected = d3.select("#dropselector").node().value;
+            change_chart(selected);
+    })
+}
+function change_chart(indicator){
+    d3.selectAll(".barchart").remove();
+    add_bar_chart(""+indicator);
+}
+
+
 
 var svg_b = d3.select("#correlationChart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
 function add_bar_chart(target){
+    console.log(target);
     console.log(raw_data);
 
     svg_bar = svg_b.append("g")
