@@ -114,23 +114,23 @@ function add_bar_chart(target){
          .attr("y", function(d) { return yScale(d[target]); })
          .attr("width", function(d) { return xScale.bandwidth(); })
          .attr("height", function(d) {return yScale(1-d[target]); })
-         .on('mouseclick', function(d){d3.select(this).attr('fill', "maroon"); onMouseClick(target, d.Variables)});
+         .on('click', function(d){onMouseClick(target, d.Variables)});
 }
 
 //Scatter Plot
 function onMouseClick(x, y){
-    d3.selectAll(".scatterChart").remove();
+    d3.selectAll(".bubblechart").remove();
     add_scatter_chart(x,y);
 }
-function add_scatter_chart(x,y){
-    console.log(scatter_data);
-
-    var svg = d3.select("right-alt").append("svg")
-        .attr("id", "scatterChart")
+var svg_scatter = d3.select("#scatterChart")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("height", height + margin.top + margin.bottom);
+
+function add_scatter_chart(x,y){
+
+    var svg = svg_scatter.append("g")
+                        .attr("class", "bubblechart")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     yScale = d3.scaleLinear().range([height, 0]),
     xScale = d3.scaleLinear().range([0, width]);
