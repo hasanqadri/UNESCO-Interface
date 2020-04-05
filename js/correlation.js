@@ -45,15 +45,16 @@ d3.dsv(",", "../data/dummy_data_cor.csv", convert_row)
     });
 
 function add_select_box(){
-    d3.select("#correlationChart")
+    d3.select("#selector")
         .append("text")
         .attr("font-size", "12px")
         .text("Select Indicator: ");
+        // .append("select", "svg")
 
-    var selector = d3.select("#correlationChart")
-        .append("select", "svg")
+        var selector = d3.select("#selector")
+        .append("select")
         .attr("id", "dropselector")
-        .style('margin-bottom','20px')
+        .style('margin-top','20px')
         .selectAll("option")
         .data(cols_c)
         .enter().append("option")
@@ -62,8 +63,8 @@ function add_select_box(){
             return d;
         });
 
-    d3.select("#correlationChart").property("selectedIndex", cols_c);
-    d3.select("#correlationChart")
+    d3.select("#selector").property("selectedIndex", cols_c);
+    d3.select("#selector")
         .on("change", function(d) {
             var selected = d3.select("#dropselector").node().value;
             change_chart(selected);
