@@ -41,7 +41,10 @@
             <option value="Region">Region</option>
             <option value="Country">Country</option>
         </select>
+
         <input placeholder="Specify region or country" type="text" id="inputRegion" name="inputRegion" class="w3-margin-left-custom"/>
+        Selected Country:
+
     </div>
     </div>
 
@@ -54,6 +57,8 @@
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
                 <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
+                <svg id="region"></svg> <!--TODO add regions-->
+                <svg id="country"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
         </div>
@@ -70,8 +75,17 @@
             </div>
         </div>
     </div>
-</body>
 
+</body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/7.14.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="/__/firebase/7.14.1/firebase-analytics.js"></script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
 <!-- Remember to place javascript files we add below here -->
 
 <!-- add js libraries here-->

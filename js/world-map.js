@@ -7,7 +7,8 @@ function createWorldMap() {
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>Population: </strong><span class='details'>${format(d.population)}</span>`);
-
+    $("#region").hide();
+    $("#country").hide();
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 960 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -96,4 +97,28 @@ queue()
       .attr('class', 'names')
       .attr('d', path);
   }
+}
+
+/**
+ * When new factor is chosen, then the colors, tooltips, and legend works
+ */
+function updateWorldMap() {
+    updateWorldColors();
+    updateWorldLabels();
+    updateWorldLegend();
+}
+
+/**
+ *
+ */
+function updateWorldColors() {
+
+}
+
+function updateWorldLabels() {
+
+}
+
+function updateWorldLegend() {
+
 }
