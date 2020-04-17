@@ -1,12 +1,22 @@
 var db = null
 
+/**
+ * Add an if-else statement here for when we are just testing mock data, then db will equal null
+ * Otherwise, if testing with real data, do the following:
+ * Change setupDBConnection() useMockData to false
+ * Change setupDBConnection() firebaseConfig to the correct configuration posted on slack
+ */
 function controller() {
     db = setupDBConnection()
-    //We use a promise to retrieve the data, otherwise creatWorldMap() is called before the callback is complete
-    populationDBCall().then(result => {
-        console.log(result)
-        createWorldMap(result)
-    });
+    if (db == null) {
+        createWorldMap()
+    } else {
+        //We use a promise to retrieve the data, otherwise creatWorldMap() is called before the callback is complete
+        populationDBCall().then(result => {
+            console.log(result)
+            createWorldMap(result)
+        });
+    }
 }
 
 //On change handler for the factors triggers this method
@@ -55,15 +65,20 @@ $( "#inputRegion" ).change(function() {
 });
 
 function setupDBConnection() {
-    // Set the configuration for your app
-    // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-    const firebaseConfig = { //EDITED OUT FOR NOW
-    };
-    firebase.initializeApp(firebaseConfig);
-    // Get a reference to the database service
-    //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
-    //Example with retrieving population
-    return firebase.firestore();
+    useMockData = true
+    if (useMockData) {
+        return null
+    } else {
+        // Set the configuration for your app
+        // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
+        const firebaseConfig = { //EDITED OUT FOR NOW
+        };
+        firebase.initializeApp(firebaseConfig);
+        // Get a reference to the database service
+        //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
+        //Example with retrieving population
+        return firebase.firestore();
+    }
 }
 
 /**
