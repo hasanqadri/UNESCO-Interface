@@ -1,6 +1,12 @@
+var db = null
+
 function controller() {
-    setupDBConnection();
-	createWorldMap()
+    db = setupDBConnection()
+    populationDBCall().then(result => {
+        console.log(result)
+        createWorldMap(result)
+    });
+
 }
 
 //On change for the factors triggers this method
@@ -49,20 +55,40 @@ $( "#inputRegion" ).change(function() {
 });
 
 function setupDBConnection() {
-    var admin = require("firebase-admin");
 
-    var serviceAccount = require("../../key/service-account-file.json");
+    // Set the configuration for your app
+    // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
+    const firebaseConfig = { //EDITED OUT FOR NOW
+    };
 
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://dva-unesco.firebaseio.com"
-    });
-    var db = admin.database();
-    var ref = db.ref("CLTE_COUNTRY");
-    ref.on("value", function(snapshot) {
-        console.log(snapshot.val());
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
+    firebase.initializeApp(firebaseConfig);
+    // Get a reference to the database service
+    //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
+    //Example with retrieving population
+    return firebase.firestore();
+}
+
+/**
+ * Example db call
+ */
+async function populationDBCall() {
+    //Get label
+    var populationData = db.collection("DEM_DATA_NATIONAL")
+        .where("INDICATOR_ID", "==", "200101")
+        .where("YEAR", "==", "2015");
+    //The above query gets population data for the year 2015
+    let popData = await populationData.get().then(function(querySnapshot) {
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                    return documentSnapshot.data();
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+    return popData
 }
 

@@ -66,8 +66,8 @@ queue()
 
     population.forEach(d => { populationById[d.id] = +d.population; });
     data.features.forEach(d => { d.population = populationById[d.id] });
-    console.log(data)
-    console.log(population)
+    //console.log(data)
+    //console.log(population)
     svg.append('g')
       .attr('class', 'countries')
       .selectAll('path')
