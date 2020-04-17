@@ -2,14 +2,14 @@ var db = null
 
 function controller() {
     db = setupDBConnection()
+    //We use a promise to retrieve the data, otherwise creatWorldMap() is called before the callback is complete
     populationDBCall().then(result => {
         console.log(result)
         createWorldMap(result)
     });
-
 }
 
-//On change for the factors triggers this method
+//On change handler for the factors triggers this method
 $( "#factor" ).change(function() {
     alert( "Handler for factor called with " + $("#factor").val() + " chosen");
     //update data and transition colors
@@ -23,7 +23,7 @@ $( "#factor" ).change(function() {
     }
 });
 
-//on change for the view (world, region, country) triggers this method 
+//on change handler for the view (world, region, country) triggers this method
 $( "#view" ).change(function() {
     alert( "Handler for view called with " + $("#view").val() + " chosen");
     let view = $("#view").val();
@@ -45,7 +45,7 @@ $( "#view" ).change(function() {
 
 });
 
-//on change for the country or region specific views triggers this method 
+//on change handler for the country or region specific views triggers this method
 $( "#inputRegion" ).change(function() {
     alert(  $("#inputRegion").val());
     //Change view of the current data to country and display the currently selected country
@@ -55,12 +55,10 @@ $( "#inputRegion" ).change(function() {
 });
 
 function setupDBConnection() {
-
     // Set the configuration for your app
     // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
     const firebaseConfig = { //EDITED OUT FOR NOW
     };
-
     firebase.initializeApp(firebaseConfig);
     // Get a reference to the database service
     //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -70,6 +68,10 @@ function setupDBConnection() {
 
 /**
  * Example db call
+ * Uses the global db connection to retrieve documents in the "DEM_DATA_NATIONAL" collection
+ * Then it maps the documents matching the parameters to an array
+ * This array is of objects like thus:
+ *  [{INDICATOR_ID:"200101", YEAR:"2015", COUNTRY_ID:"USA"}, {...}, ...]
  */
 async function populationDBCall() {
     //Get label
@@ -80,7 +82,7 @@ async function populationDBCall() {
     let popData = await populationData.get().then(function(querySnapshot) {
         if (querySnapshot.size > 0) {
             return querySnapshot.docs.map(function (documentSnapshot) {
-                    return documentSnapshot.data();
+                    return documentSnapshot.data(); //Each individual object (country's stat)
             })
         } else {
             // doc.data() will be undefined in this case
