@@ -5,6 +5,7 @@ var db = null
  * Otherwise, if testing with real data, do the following:
  * Change setupDBConnection() useMockData to false
  * Change setupDBConnection() firebaseConfig to the correct configuration posted on slack
+ * this method is only called at the initiation of the app - make calls to genericDBCall directly elsewhere in the app
  */
 function controller() {
     db = setupDBConnection();
@@ -12,7 +13,10 @@ function controller() {
         createWorldMap()
     } else {
         //We use a promise to retrieve the data, otherwise creatWorldMap() is called before the callback is complete
-        populationDBCall().then(result => {
+        let year = $("#year").val();
+        let indicator_id = $("#factor").val(); //Id for population
+        let document_id = mappingDocumentId[$("#factor").val()];
+        genericDBCall(year, indicator_id, document_id).then(result => {
             console.log(result);
             createWorldMap(result)
         });
@@ -26,7 +30,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = { //EDITED OUT FOR NOW};
+        const firebaseConfig = {  } //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -42,33 +46,30 @@ function setupDBConnection() {
  * This array is of objects like thus:
  *  [{INDICATOR_ID:"200101", YEAR:"2015", COUNTRY_ID:"USA"}, {...}, ...]
  */
-async function populationDBCall() {
-    //Get label
-
-    var populationData = db.collection("DEM_DATA_NATIONAL")
-        .where("INDICATOR_ID", "==", "200101")
-        .where("YEAR", "==", "2015");
+async function genericDBCall(year, indicator_id, document_id) {
+    console.log(year, indicator_id, document_id)
+    var collection = db.collection(document_id)
+        .where("INDICATOR_ID", "==", indicator_id)
+        .where("YEAR", "==", year);
     //The above query gets population data for the year 2015
-    let popData = await populationData.get().then(function(querySnapshot) {
+    let data = await collection.get().then(function(querySnapshot) {
         console.log(querySnapshot.size);
         if (querySnapshot.size > 0) {
             return querySnapshot.docs.map(function (documentSnapshot) {
-                    return documentSnapshot.data(); //Each individual object (country's stat)
+                return documentSnapshot.data(); //Each individual object (country's stat)
             })
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 
-    return popData
+    return data
 }
 
-
 //On change handlers functions
-
 
 //On change handler for the factors triggers this method
 $( "#factor" ).change(function() {
@@ -111,3 +112,15 @@ $( "#inputRegion" ).change(function() {
     $("#region").hide();
     $("#worldMap").hide();
 });
+
+
+//on change handler for the country or region specific views triggers this method
+$( "#year" ).change(function() {
+    //Change view of the current data to country and display the currently selected country
+    let view = $("#view").val();
+    if (view == "World") {
+        updateWorldMap();
+    }
+});
+
+
