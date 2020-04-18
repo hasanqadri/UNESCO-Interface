@@ -30,8 +30,6 @@
 
     <!-- Selector for years -->
     <div  style="float: left; width:100%; display:inline;" class = "w3-margin-top-custom raisedbox">
-        <button id="worldView" type="button" class="btn btn-primary btn-sm w3-margin-left-custom " style="display:none">Return to World View</button>
-
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
             <option value="200101">Population</option>
             <option value="40055">Enrollment in Early Childhood Education</option>
@@ -54,7 +52,7 @@
             <option value="2001">2001</option>
             <option value="2000">2000</option>
         </select>
-        <select style="width:200px;display:none" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="view">
+        <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="view">
             <option value="World">World</option>
             <option value="Region">Region</option>
             <option value="Country">Country</option>
@@ -74,8 +72,8 @@
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
                 <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
-                <svg id="region" style="display:none"></svg> <!--TODO add regions-->
-                <svg id="country" style="display:none"></svg> <!-- TODO add country-->
+                <svg id="region"></svg> <!--TODO add regions-->
+                <svg id="country"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
         </div>
