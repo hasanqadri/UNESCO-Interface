@@ -1,15 +1,21 @@
 //Mapping of indicator id to label - used for UI
-mappingIndicatorId = {"200101": "Population", "40055": "Enrollment in Early Childhood Education (Both Sexes"}
+mappingIndicatorId = {"200101": "Population", "40055": "Enrollment in Early Childhood Education (Both Sexes)"}
 //Mapping of indicator id to document id - used for DB call
-mappingDocumentId = {"200101": "DEM_DATA_NATIONAL", "40055": "EDUN_LABEL"}
+mappingDocumentId = {"200101": "DEM_DATA_NATIONAL", "40055": "EDUN_DATA_NATIONAL_1"}
+var legend = null
+var legendText = []
+var color = null
+var cLog = null
+var legend = null
+var format = null
 function createWorldMap(dataSet) {
-  const format = d3.format(',');
+  format = d3.format(',');
 
   // Set tooltips
   const tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
-    .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>${mappingIndicatorId[$("#factor").val()]}: </strong><span class='details'>${d.data}</span>`);
+    .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>${mappingIndicatorId[$("#factor").val()]}: </strong><span class='details'>${format(d.data)}</span>`);
     $("#region").hide();
     $("#country").hide();
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -38,12 +44,14 @@ function createWorldMap(dataSet) {
 
   function ready(error, country_map) {
     const dataById = {};
-    const color = d3.scaleLinear()
-          .domain([
-              d3.min(dataSet, d => d["VALUE"]),
-              d3.max(dataSet, d => d["VALUE"])
-          ])
+    color = d3.scaleThreshold()
+          .domain(d3.range(0, 8))
           .range(d3.schemeBlues[9]);
+    cLog = d3.scaleLog().range([0,8]).domain([
+        Math.min.apply(Math, dataSet.map(function(o) { return o["VALUE"]; })),
+        Math.max.apply(Math, dataSet.map(function(o) { return o["VALUE"]; }))
+    ]);
+
     createLegend(dataSet);
     dataSet.forEach(d => { dataById[d['COUNTRY_ID']] = + d["VALUE"]; });
     country_map.features.forEach(function(d) {
@@ -58,7 +66,7 @@ function createWorldMap(dataSet) {
         .attr('class', 'country')
         .attr('d', path)
         .style('fill', function(d) {
-            return dataById[d.id] != undefined ? color(dataById[d.id]) : "#DCDCDC"
+            return dataById[d.id] != undefined ? color(cLog(dataById[d.id])) : "#DCDCDC"
         })
         .style('stroke', 'white')
         .style('opacity', 0.8)
@@ -95,18 +103,21 @@ function updateWorldMap() {
     let indicator_id = $("#factor").val();
     let document_id = mappingDocumentId[$("#factor").val()];
     const dataById = {};
-
+    console.log(indicator_id)
+    console.log(document_id)
     genericDBCall(year, indicator_id, document_id).then(dataSet => {
+        console.log(dataSet)
         $("#worldMap").empty();
-        createWorldMap(dataSet);
+        $(".legend").empty();
 
-        //Delete legend
-        $("#legend").remove();
-        createLegend(dataSet)
+        createWorldMap(dataSet);
     });
 }
 
-function createLegend(dataSet) {
+
+function createLegend(data) {
+
+    legendText = [0,1,2,3,4,5,6,7,8]
 
     //Instantiate svg
     var margin = {top: 20,
@@ -116,35 +127,33 @@ function createLegend(dataSet) {
         width = 440 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
-    const color = d3.scaleLinear()
-        .domain([
-            d3.min(dataSet, d => d["VALUE"]),
-            d3.max(dataSet, d => d["VALUE"])
-        ])
-        .range(d3.schemeBlues[9]);
     // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-
-    var legend = d3.select(".innerContainer").append("svg")
+    legend = d3.select(".innerContainer").append("svg")
         .attr("class", "legend")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .selectAll("g")
-        .data(color.range().slice())
-        .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-    legend.append("rect")
+    g = legend.selectAll("g")
+        .data(legendText)
+        .enter()
+        .append("g")
+        .attr("transform", function (d, i) {
+            return "translate(" + margin.left + "," + ((i * 20) + margin.top) + ")";
+        })
+
+    g.append("rect")
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", function(d) {return d});
+        .style("fill", color);
 
-
-    legend.append("text")
+    g.append("text")
+        .data(legendText)
         .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", ".35em")
+        .attr("y", 5)
+        .attr("class", "legendNums")
+        .attr("dy", ".30em")
         .text(function (d, i) {
-            return i/10;
+            return format(Math.round(cLog.invert(i)));
         });
 
 }

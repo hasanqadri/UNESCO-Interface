@@ -45,6 +45,9 @@ function setupDBConnection() {
  * Then it maps the documents matching the parameters to an array
  * This array is of objects like thus:
  *  [{INDICATOR_ID:"200101", YEAR:"2015", COUNTRY_ID:"USA"}, {...}, ...]
+ * @param year the year of the data wanted
+ * @param indicator_id This is the set of data wanted for a particular year
+ * @param document_id This is the collection for the query
  */
 async function genericDBCall(year, indicator_id, document_id) {
     console.log(year, indicator_id, document_id)
@@ -70,19 +73,6 @@ async function genericDBCall(year, indicator_id, document_id) {
 }
 
 //On change handlers functions
-
-//On change handler for the factors triggers this method
-$( "#factor" ).change(function() {
-    //update data and transition colors
-    if (view === 'World') {
-        updateWorldMap();
-    } else if (view === 'Region') {
-        updateRegion();
-
-    } else if (view === 'Country') {
-        updateCountry();
-    }
-});
 
 //on change handler for the view (world, region, country) triggers this method
 $( "#view" ).change(function() {
@@ -124,3 +114,19 @@ $( "#year" ).change(function() {
 });
 
 
+//On change handler for the factors triggers this method
+$( "#factor" ).change(function() {
+    //update data and transition colors
+    console.log('factor')
+    let view = $("#view").val();
+
+    if (view === 'World') {
+        console.log('factor')
+        updateWorldMap();
+    } else if (view === 'Region') {
+        updateRegion();
+
+    } else if (view === 'Country') {
+        updateCountry();
+    }
+});
