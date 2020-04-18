@@ -33,7 +33,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {  } //EDITED OUT FOR NOW};
+        const firebaseConfig = {}//NBothing here  } //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
