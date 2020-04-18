@@ -1,23 +1,20 @@
 //Mapping of indicator id to label - used for UI
 mappingIndicatorId = {"200101": "Population", "40055": "Enrollment in Early Childhood Education (Both Sexes)"}
 //Mapping of indicator id to document id - used for DB call
-mappingDocumentId = {"200101": "DEM_DATA_NATIONAL", "40055": "EDUN_DATA_NATIONAL_1"}
+mappingDocumentId = {"200101": "DEM_DATA_NATIONAL", "40055": "EDUN_DATA_NATIONAL_1"};
 var legend = null
 var legendText = []
 var color = null
 var cLog = null
 var legend = null
-var format = null
 function createWorldMap(dataSet) {
-  format = d3.format(',');
+  const format = d3.format(',');
 
   // Set tooltips
   const tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>${mappingIndicatorId[$("#factor").val()]}: </strong><span class='details'>${format(d.data)}</span>`);
-    $("#region").hide();
-    $("#country").hide();
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 960 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -40,9 +37,10 @@ function createWorldMap(dataSet) {
   svg.call(tip);
   queue()
   .defer(d3.json, 'data/world_countries.json')
+  .defer(d3.json, 'data/regions.json')
   .await(ready);
 
-  function ready(error, country_map) {
+  function ready(error, country_map, regions) {
     const dataById = {};
     color = d3.scaleThreshold()
           .domain(d3.range(0, 8))
@@ -85,6 +83,11 @@ function createWorldMap(dataSet) {
           d3.select(this)
             .style('opacity', 0.8)
             .style('stroke-width',0.3);
+        })
+        .on('click', function(d) {
+            $("#view").val("Region")
+
+            d.properties.name
         });
 
     svg.append('path')
@@ -153,7 +156,7 @@ function createLegend(data) {
         .attr("class", "legendNums")
         .attr("dy", ".30em")
         .text(function (d, i) {
-            return format(Math.round(cLog.invert(i)));
+            return Math.round(cLog.invert(i));
         });
 
 }

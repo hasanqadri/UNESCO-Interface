@@ -8,6 +8,7 @@ var db = null
  * this method is only called at the initiation of the app - make calls to genericDBCall directly elsewhere in the app
  */
 function controller() {
+
     db = setupDBConnection();
     if (db == null) {
         createWorldMap()
@@ -16,7 +17,9 @@ function controller() {
         let year = $("#year").val();
         let indicator_id = $("#factor").val(); //Id for population
         let document_id = mappingDocumentId[$("#factor").val()];
+
         genericDBCall(year, indicator_id, document_id).then(result => {
+
             console.log(result);
             createWorldMap(result)
         });
@@ -24,13 +27,20 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = true
+    useMockData = true      //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {  } //EDITED OUT FOR NOW};
+        const firebaseConfig = {  apiKey: "AIzaSyBfGZTxS98qEYhSCITdnnQQAfptHtzdMAM",
+            authDomain: "dva-unesco.firebaseapp.com",
+            databaseURL: "https://dva-unesco.firebaseio.com",
+            projectId: "dva-unesco",
+            storageBucket: "dva-unesco.appspot.com",
+            messagingSenderId: "121433970216",
+            appId: "1:121433970216:web:c078f76465bde9e1fd871d",
+            measurementId: "G-52HNYD8VV9"} //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
