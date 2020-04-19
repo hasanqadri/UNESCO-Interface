@@ -129,7 +129,7 @@ function add_bar_chart(target){
     svg_bar.append("text")
       .attr("transform",
             "translate(" + (width/2) + " ," +
-                           (height + margin.bottom/2) + ")")
+                           (height + margin.bottom/2 + 10) + ")")
       .style("text-anchor", "middle")
       .attr("font-size", "15px")
       .text("Variables");
@@ -162,7 +162,7 @@ function add_scatter_chart(x,y){
     tip = d3.tip()
                 .attr('class', 'd3-tip-c')
                 .style("stroke", "gray")
-                .html(function(d) { return "<strong>Country:</strong> "+d.Countries+"<br/><strong>Indicator Value 1:</strong> "+ d[x]+"<br/><strong>Indicator Value 2:</strong> "+ d[y]; });
+                .html(function(d) { return "<strong>Country:</strong> "+d.Countries+"<br/><strong>Indicator 1:</strong> "+ d[x]+"<br/><strong>Indicator 2:</strong> "+ d[y]; });
    
     svg_scatter.call(tip);
 
@@ -190,7 +190,7 @@ function add_scatter_chart(x,y){
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", -60)
+      .attr("y", -70)
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .attr("font-size", "15px")
@@ -200,7 +200,7 @@ function add_scatter_chart(x,y){
     svg.append("text")
       .attr("transform",
             "translate(" + (width/2) + " ," +
-                           (height + margin.bottom/2) + ")")
+                           (height + margin.bottom/2 + 10) + ")")
       .style("text-anchor", "middle")
       .attr("font-size", "15px")
       .text(y);
