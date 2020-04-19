@@ -110,7 +110,7 @@ function add_bar_chart(target){
          .data(raw_data)
          .enter().append("rect")
          .attr("class", "bar")
-         .attr("fill", "steelblue")
+         .attr("fill", "rgb(32,178,170)")
          .attr("x", function(d) { return xScale(d.Variables); })
          .attr("y", function(d) { return yScale(d[target]); })
          .attr("width", function(d) { return xScale.bandwidth(); })
@@ -146,6 +146,7 @@ var svg_scatter = d3.select("#scatterChart")
         .attr("height", height + margin.top + margin.bottom);
 
 
+
 function add_scatter_chart(x,y){
 
     var svg = svg_scatter.append("g")
@@ -158,13 +159,17 @@ function add_scatter_chart(x,y){
     xScale.domain([0, d3.max(scatter_data, function(d){return d[x]; })]);
     yScale.domain([0, d3.max(scatter_data, function(d) { return d[y]; })]);
 
+    tip = d3.tip()
+                .attr('class', 'd3-tip-c')
+                .style("stroke", "gray")
+                .html(function(d) { return "<strong>Country:</strong> "+d.Countries+"<br/><strong>Indicator Value 1:</strong> "+ d[x]+"<br/><strong>Indicator Value 2:</strong> "+ d[y]; });
+   
+    svg_scatter.call(tip);
+
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale));
-
-    tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "Country: "+d.Countries+"<br/>Indicator Value: "+d.Variables; });
-    svg_scatter.call(tip);
 
 
     svg.append("g")
@@ -180,6 +185,8 @@ function add_scatter_chart(x,y){
         .attr("cy", function (d) { return yScale(d[y]); } )
         .attr("r", function(d){return d["Population"]/1000})
         .style("fill", "maroon")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
 
     svg.append("text")
       .attr("transform", "rotate(-90)")
@@ -188,6 +195,15 @@ function add_scatter_chart(x,y){
       .attr("dy", "1em")
       .attr("font-size", "15px")
       .style("text-anchor", "middle")
-      .text("");
+      .text(x);
+
+    svg.append("text")
+      .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (height + margin.bottom/2) + ")")
+      .style("text-anchor", "middle")
+      .attr("font-size", "15px")
+      .text(y);
+
 
 }
