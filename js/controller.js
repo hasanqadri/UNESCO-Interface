@@ -24,13 +24,13 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = true      //TODO Change this variable based off using mock or real data
+    useMockData = false      //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {  } //EDITED OUT FOR NOW};
+        const firebaseConfig = { } //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -113,20 +113,31 @@ $( "#year" ).change(function() {
     }
 });
 
+//on change handler for the country or region specific views triggers this method
+$( "#viewWorldButton" ).on('click', function() {
+    //Change view of the current data to country and display the currently selected country
+    $("#worldMap").show();
+    $("#viewWorldButton").hide();
+    $(".legend").show()
+    $("#view").val("World")
+    $("#region").hide();
+    $("#country").hide();
+    updateWorldMap()  //call this function whenever you want to switch to world map view
+});
+
 
 //On change handler for the factors triggers this method
 $( "#factor" ).change(function() {
     //update data and transition colors
-    console.log('factor')
     let view = $("#view").val();
 
     if (view === 'World') {
         console.log('factor')
         updateWorldMap();
     } else if (view === 'Region') {
-        updateRegion();
+        updateRegion();  //TODO I think Priya worked on this?
 
     } else if (view === 'Country') {
-        updateCountry();
+        updateCountry();  //TODO I think Priya worked on this?
     }
 });

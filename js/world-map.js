@@ -7,17 +7,15 @@ var legendText = []
 var color = null
 var cLog = null
 var legend = null
-var format = null
+//Do not call this function to display the world map, call updateWorldMap() instead
 function createWorldMap(dataSet) {
-  format = d3.format(',');
+  const format = d3.format(',');
 
   // Set tooltips
   const tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
     .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>${mappingIndicatorId[$("#factor").val()]}: </strong><span class='details'>${format(d.data)}</span>`);
-    $("#region").hide();
-    $("#country").hide();
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 960 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -85,6 +83,15 @@ function createWorldMap(dataSet) {
           d3.select(this)
             .style('opacity', 0.8)
             .style('stroke-width',0.3);
+        })
+        .on('click', function(d) {
+            console.log('here')
+            $("#worldMap").hide();
+            $(".legend").hide()
+            $("#viewWorldButton").show();
+            $("region").show()
+            $("#view").val("Region")
+            console.log($("#view").val())
         });
 
     svg.append('path')
@@ -96,6 +103,7 @@ function createWorldMap(dataSet) {
 
 /**
  * When new factor is chosen, then the colors, tooltips, and legend works
+ * Call this function whenever you want to switch to world map view
  */
 function updateWorldMap() {
 
@@ -153,7 +161,7 @@ function createLegend(data) {
         .attr("class", "legendNums")
         .attr("dy", ".30em")
         .text(function (d, i) {
-            return format(Math.round(cLog.invert(i)));
+            return Math.round(cLog.invert(i));
         });
 
 }
