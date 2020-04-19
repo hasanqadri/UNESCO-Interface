@@ -1,4 +1,4 @@
-var db = null
+var db = null;
 
 /**
  * Add an if-else statement here for when we are just testing mock data, then db will equal null
@@ -8,14 +8,15 @@ var db = null
  * this method is only called at the initiation of the app - make calls to genericDBCall directly elsewhere in the app
  */
 function controller() {
+    addFactorsToSelector();
     db = setupDBConnection();
     if (db == null) {
         createWorldMap()
     } else {
         //We use a promise to retrieve the data, otherwise creatWorldMap() is called before the callback is complete
         let year = $("#year").val();
-        let indicator_id = $("#factor").val(); //Id for population
-        let document_id = mappingDocumentId[$("#factor").val()];
+        let indicator_id = $("#factor").val().split(",")[0]; //Id for population
+        let document_id = $("#factor").val().split(",")[1];
         genericDBCall(year, indicator_id, document_id).then(result => {
             console.log(result);
             createWorldMap(result)
@@ -24,13 +25,13 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = true     //TODO Change this variable based off using mock or real data
+    useMockData = true    //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = { } //EDITED OUT FOR NOW};
+        const firebaseConfig = {} //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -72,72 +73,5 @@ async function genericDBCall(year, indicator_id, document_id) {
     return data
 }
 
-//On change handlers functions
-
-//on change handler for the view (world, region, country) triggers this method
-$( "#view" ).change(function() {
-    let view = $("#view").val();
-    //Change view of the current data
-    if (view === 'World') {
-        $("#worldMap").show();
-        $("#region").hide();
-        $("#country").hide();
-    } else if (view === 'Region') {
-        $("#region").show();
-        $("#worldMap").hide();
-        $("#country").hide();
-
-    } else if (view === 'Country') {
-        $("#country").show();
-        $("#region").hide();
-        $("#worldMap").hide();
-    }
-
-});
-
-//on change handler for the country or region specific views triggers this method
-$( "#inputRegion" ).change(function() {
-    //Change view of the current data to country and display the currently selected country
-    $("#country").show();
-    $("#region").hide();
-    $("#worldMap").hide();
-});
 
 
-//on change handler for the country or region specific views triggers this method
-$( "#year" ).change(function() {
-    //Change view of the current data to country and display the currently selected country
-    let view = $("#view").val();
-    if (view == "World") {
-        updateWorldMap();
-    }
-});
-
-//on change handler for the country or region specific views triggers this method
-$( "#viewWorldButton" ).on('click', function() {
-    //Change view of the current data to country and display the currently selected country
-    $("#worldMap").show();
-    $("#viewWorldButton").hide();
-    $(".legend").show()
-    $("#view").val("World")
-    $("#region").hide();
-    $("#country").hide();
-    updateWorldMap()  //call this function whenever you want to switch to world map view
-});
-
-
-//On change handler for the factors triggers this method
-$( "#factor" ).change(function() {
-    //update data and transition colors
-    let view = $("#view").val();
-
-    if (view === 'World') {
-        console.log('factor')
-        updateWorldMap();
-    } else if (view === 'Region') {
-        updateRegion();  //TODO I think Priya worked on this?
-
-    } else if (view === 'Country') {
-        updateCountry();  //TODO I think Priya worked on this?
-    }
-});

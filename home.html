@@ -33,8 +33,7 @@
         <button id="viewWorldButton" type="button" class="btn btn-primary btn-sm w3-margin-left-custom " style="display:none">Return to World View</button>
 
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
-            <option value="200101">Population</option>
-            <option value="40055">Enrollment in Early Childhood Education</option>
+            <option value="200101,DEM_DATA_NATIONAL">Population</option>
         </select>
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="year">
             <option value="2015">2015</option>
@@ -97,14 +96,11 @@
 <!-- Remember to place javascript files we add below here -->
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="/__/firebase/7.14.1/firebase-app.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
-<script src="/__/firebase/7.14.1/firebase-analytics.js"></script>
 <!-- Initialize Firebase -->
-<script src="/__/firebase/init.js"></script>
 
 <!-- add js libraries here-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
@@ -116,5 +112,6 @@
 <!-- add custom js files here -->
 <script src="js/world-map.js"></script>
 <script src="js/controller.js"></script>
+<script src="js/ui.js"></script>
 
 </html>
