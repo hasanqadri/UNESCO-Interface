@@ -5,9 +5,17 @@
 <head>
     <!-- add stylesheets here-->
     <link href="css/styling.css" rel="stylesheet">
+
+    <!--- External libs -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js'></script>
+    <script src="js/lib/d3-tip.js"></script>
+
 </head>
 
-<body onload="">
+<body onload="controller()">
 
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -22,18 +30,37 @@
 
     <!-- Selector for years -->
     <div  style="float: left; width:100%; display:inline;" class = "w3-margin-top-custom raisedbox">
+        <button id="viewWorldButton" type="button" class="btn btn-primary btn-sm w3-margin-left-custom " style="display:none">Return to World View</button>
+
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
-            <option value="Default">Select Factor</option>
-            <option value="Population">Population</option>
-            <option value="Poverty">Poverty</option>
-            <option value="Etc">etc</option>
+            <option value="200101,DEM_DATA_NATIONAL">Population</option>
         </select>
-        <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="view">
+        <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="year">
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
+            <option value="2009">2009</option>
+            <option value="2008">2008</option>
+            <option value="2007">2007</option>
+            <option value="2006">2006</option>
+            <option value="2005">2005</option>
+            <option value="2004">2004</option>
+            <option value="2003">2003</option>
+            <option value="2002">2002</option>
+            <option value="2001">2001</option>
+            <option value="2000">2000</option>
+        </select>
+        <select style="width:200px;display:none" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="view">
             <option value="World">World</option>
             <option value="Region">Region</option>
             <option value="Country">Country</option>
         </select>
+
         <input placeholder="Specify region or country" type="text" id="inputRegion" name="inputRegion" class="w3-margin-left-custom"/>
+
     </div>
     </div>
 
@@ -45,7 +72,9 @@
             <h1 class="w3-margin-top  fontCustom w3-margin-bottom w3-center" id="head-title">Global Distribution</h1>
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
-                <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 50 1150 650"></svg>
+                <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
+                <svg id="region" style="display:none"></svg> <!--TODO add regions-->
+                <svg id="country" style="display:none"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
         </div>
@@ -64,12 +93,20 @@
             </div>
         </div>
     </div>
-</body>
 
+</body>
 <!-- Remember to place javascript files we add below here -->
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
 
 <!-- add js libraries here-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="js/lib/d3-dsv.min.js"></script>
 <script src="js/lib/jquery-3.1.1.min.js"></script>
@@ -83,5 +120,13 @@
 
 <!-- add custom js files here -->
 <script src="js/correlation.js"></script>
+<<<<<<< HEAD
 <script src="js/lib/d3-tip.js"></script>
+=======
+<!-- add custom js files here -->
+<script src="js/world-map.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/ui.js"></script>
+
+>>>>>>> 3c26d82900c2b7be61a5a4fb8970a8bcaec34629
 </html>
