@@ -24,7 +24,7 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = false      //TODO Change this variable based off using mock or real data
+    useMockData = true     //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
