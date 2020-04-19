@@ -1,7 +1,4 @@
-//Mapping of indicator id to label - used for UI
-mappingIndicatorId = {"200101": "Population", "40055": "Enrollment in Early Childhood Education (Both Sexes)"}
-//Mapping of indicator id to document id - used for DB call
-mappingDocumentId = {"200101": "DEM_DATA_NATIONAL", "40055": "EDUN_DATA_NATIONAL_1"}
+
 var legend = null
 var legendText = []
 var color = null
@@ -15,7 +12,7 @@ function createWorldMap(dataSet) {
   const tip = d3.tip()
     .attr('class', 'd3-tip')
     .offset([-10, 0])
-    .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>${mappingIndicatorId[$("#factor").val()]}: </strong><span class='details'>${format(d.data)}</span>`);
+    .html(d => `<strong>Country: </strong><span class='details'>${d.properties.name}<br></span><strong>Value: </strong><span class='details'>${format(d.data)}</span>`);
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 960 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
@@ -108,8 +105,8 @@ function createWorldMap(dataSet) {
 function updateWorldMap() {
 
     let year = $("#year").val();
-    let indicator_id = $("#factor").val();
-    let document_id = mappingDocumentId[$("#factor").val()];
+    let indicator_id = $("#factor").val().split(",")[0];
+    let document_id = $("#factor").val().split(",")[1];
     const dataById = {};
     console.log(indicator_id)
     console.log(document_id)
