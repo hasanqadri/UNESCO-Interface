@@ -43,7 +43,7 @@ function createWorldMap(dataSet) {
           .domain(d3.range(0, 8))
           .range(d3.schemeBlues[9]);
     cLog = d3.scaleLog().range([0,8]).domain([
-        Math.min.apply(Math, dataSet.map(function(o) { return o["VALUE"]; })),
+        Math.min.apply(Math, dataSet.map(function(o) { return o["VALUE"]+1; })),
         Math.max.apply(Math, dataSet.map(function(o) { return o["VALUE"]; }))
     ]);
 
