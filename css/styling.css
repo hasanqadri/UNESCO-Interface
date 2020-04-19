@@ -280,8 +280,8 @@ path.domain {
 .innerContainer2 {
     position: relative;
     overflow: hidden;
-    flex: 0 1 600px;
-    flex-flow: column wrap;
+    flex: 0 1 1100px;
+    flex-flow: row wrap;
     top: 20px;
 }
 

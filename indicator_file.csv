@@ -1,0 +1,36 @@
+INDICATOR_ID,ROOT,FILE,DESCRIPTION
+GER.02,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,  EDUN_DATA_REGIONAL",Gross enrollment ratio
+OAEPG.1,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL",Percentage of pupils enrolled
+ROFST.1.cp,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL",Out-of-school rate
+CR.1,"SDG, EDUN","SDG_DATA_NATIONAL, EDUN_DATA_NATIONAL",Completion rate of education
+ROFST.2.cp,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL",Out-of-school rate
+CR.2,"SDG, EDUN","SDG_DATA_NATIONAL, EDUN_DATA_NATIONAL",Completion rate of education
+GTranR.5t8,EDUN,EDUN_DATA_NATIONAL,Gross transition ratio
+ROFST.3.F.cp,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL",Out-of-school rate
+CR.3,"SDG, EDUN","SDG_DATA_NATIONAL, EDUN_DATA_NATIONAL",
+EA.6t8.Ag25t99,"EDUN, SDG","SDG_DATA_NATIONAL, EDUN_DATA_NATIONAL",Education attainment rate
+MYS.1t8.Ag25t99,EDUN,EDUN_DATA_NATIONAL,Mean years of schooling
+LR.Ag15t24,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL",Youth literacy rate
+XUNIT.GDPcap.02.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.1.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.1.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding as % of GDP per capita
+XUNIT.GDPcap.2.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.2t3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding as % of GDP per capita
+XUNIT.GDPcap.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding as % of GDP per capita
+XUNIT.GDPcap.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding as % of GDP per capita
+XUNIT.PPPconst.02.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.1.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.1.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding, constant PPP$"
+XUNIT.PPPconst.2.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.2t3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding, constant PPP$"
+XUNIT.PPPconst.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funcding, constant PPP$"
+XUNIT.PPPconst.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding, constant PPP$"
+SchBSP.1.Wcomput,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to resources
+SchBSP.1.WElec,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to resources
+SchBSP.1.WIntern,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to resources
+SchBSP.1.WWatA,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to resources
+NY.GDP.PCAP.CD,DEM,DEM_DATA_NATIONAL,GDP per capita
