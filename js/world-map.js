@@ -1,9 +1,6 @@
 
-var legend = null
-var legendText = []
 var color = null
 var cLog = null
-var legend = null
 //Do not call this function to display the world map, call updateWorldMap() instead
 function createWorldMap(dataSet) {
   const format = d3.format(',');
@@ -43,7 +40,7 @@ function createWorldMap(dataSet) {
           .domain(d3.range(0, 8))
           .range(d3.schemeBlues[9]);
     cLog = d3.scaleLog().range([0,8]).domain([
-        Math.min.apply(Math, dataSet.map(function(o) { return o["VALUE"]; })),
+        Math.min.apply(Math, dataSet.map(function(o) { return o["VALUE"]+1; })),
         Math.max.apply(Math, dataSet.map(function(o) { return o["VALUE"]; }))
     ]);
 
@@ -68,9 +65,7 @@ function createWorldMap(dataSet) {
         .style('stroke-width', 0.3)
         // tooltips
         .on('mouseover',function(d){
-            console.log('t1')
             tip.show(d);
-          //console.log(d)
           d3.select(this)
             .style('opacity', 1)
             .style('stroke-width', 3);
@@ -82,13 +77,11 @@ function createWorldMap(dataSet) {
             .style('stroke-width',0.3);
         })
         .on('click', function(d) {
-            console.log('here')
             $("#worldMap").hide();
             $(".legend").hide()
             $("#viewWorldButton").show();
             $("region").show()
             $("#view").val("Region")
-            console.log($("#view").val())
         });
 
     svg.append('path')
@@ -122,7 +115,7 @@ function updateWorldMap() {
 
 function createLegend(data) {
 
-    legendText = [0,1,2,3,4,5,6,7,8]
+    var legendText = [0,1,2,3,4,5,6,7,8]
 
     //Instantiate svg
     var margin = {top: 20,
@@ -133,7 +126,7 @@ function createLegend(data) {
         height = 400 - margin.top - margin.bottom;
 
     // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-    legend = d3.select(".innerContainer").append("svg")
+    var legend = d3.select(".innerContainer").append("svg")
         .attr("class", "legend")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)

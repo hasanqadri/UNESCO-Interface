@@ -25,7 +25,7 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = true    //TODO Change this variable based off using mock or real data
+    useMockData = true   //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
@@ -57,7 +57,6 @@ async function genericDBCall(year, indicator_id, document_id) {
         .where("YEAR", "==", year);
     //The above query gets population data for the year 2015
     let data = await collection.get().then(function(querySnapshot) {
-        console.log(querySnapshot.size);
         if (querySnapshot.size > 0) {
             return querySnapshot.docs.map(function (documentSnapshot) {
                 return documentSnapshot.data(); //Each individual object (country's stat)
