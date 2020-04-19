@@ -4,9 +4,7 @@ var margin = {top: 50, right: 75, bottom: 75, left: 75}
 
 function convert_row(d){
     cols_c = Object.keys(d);
-    
     obj_c = {Variables: d.Variables};
-    console.log(obj_c);
     for (c in cols_c){
         if (c > 0){
             obj_c[cols_c[c]] = +d[cols_c[c]];
@@ -17,7 +15,10 @@ function convert_row(d){
 
 function convert_scatter_row(d){
     cols = Object.keys(d);
+    // console.log(d['Indicator1']);
     obj = {Countries: d.Countries};
+    // console.log(obj);
+
     for (c in cols){
         if (c > 0){
             obj[cols[c]] = +d[cols[c]];
@@ -115,6 +116,24 @@ function add_bar_chart(target){
          .attr("width", function(d) { return xScale.bandwidth(); })
          .attr("height", function(d) {return yScale(1-d[target]); })
          .on('click', function(d){onMouseClick(target, d.Variables)});
+
+    svg_bar.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -60)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .attr("font-size", "15px")
+      .style("text-anchor", "middle")
+      .text("Correlation Value");
+
+    svg_bar.append("text")
+      .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (height + margin.bottom/2) + ")")
+      .style("text-anchor", "middle")
+      .attr("font-size", "15px")
+      .text("Variables");
+
 }
 
 //Scatter Plot
@@ -125,6 +144,7 @@ function onMouseClick(x, y){
 var svg_scatter = d3.select("#scatterChart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
+
 
 function add_scatter_chart(x,y){
 
@@ -143,6 +163,10 @@ function add_scatter_chart(x,y){
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale));
 
+    tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "Country: "+d.Countries+"<br/>Indicator Value: "+d.Variables; });
+    svg_scatter.call(tip);
+
+
     svg.append("g")
         .attr("class", "y axis")
         .call(d3.axisLeft(yScale));
@@ -156,5 +180,14 @@ function add_scatter_chart(x,y){
         .attr("cy", function (d) { return yScale(d[y]); } )
         .attr("r", function(d){return d["Population"]/1000})
         .style("fill", "maroon")
+
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -60)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .attr("font-size", "15px")
+      .style("text-anchor", "middle")
+      .text("");
 
 }
