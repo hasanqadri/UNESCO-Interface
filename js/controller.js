@@ -18,8 +18,22 @@ function controller() {
         let indicator_id = $("#factor").val().split(",")[0]; //Id for population
         let document_id = $("#factor").val().split(",")[1];
         genericDBCall(year, indicator_id, document_id).then(result => {
-            console.log(result);
+            //console.log(result);
             createWorldMap(result)
+        });
+
+        ind_id = "GER.02"
+        ind_2 = "CR.2"
+        doc_id = "SDG_DATA_NATIONAL"
+        corrDBCall(ind_id, 'correlation').then(
+            c_result => {
+            console.log(c_result);
+            add_bar_chart(c_result)
+            genericDBCall('2018', ind_id, doc_id).then(res_1 => {
+                genericDBCall('2018', ind_2, doc_id).then(res_2 => {
+                add_scatter_chart(res_1, res_2)
+            });
+            });
         });
     }
 }
@@ -31,7 +45,14 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {} //EDITED OUT FOR NOW};
+        const firebaseConfig = {apiKey: "AIzaSyBfGZTxS98qEYhSCITdnnQQAfptHtzdMAM",
+                  authDomain: "dva-unesco.firebaseapp.com",
+                  databaseURL: "https://dva-unesco.firebaseio.com",
+                  projectId: "dva-unesco",
+                  storageBucket: "dva-unesco.appspot.com",
+                  messagingSenderId: "121433970216",
+                  appId: "1:121433970216:web:c078f76465bde9e1fd871d",
+                  measurementId: "G-52HNYD8VV9"} //EDITED OUT FOR NOW};
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -55,6 +76,28 @@ async function genericDBCall(year, indicator_id, document_id) {
     var collection = db.collection(document_id)
         .where("INDICATOR_ID", "==", indicator_id)
         .where("YEAR", "==", year);
+    //The above query gets population data for the year 2015
+    let data = await collection.get().then(function(querySnapshot) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data(); //Each individual object (country's stat)
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+
+    return data
+}
+
+async function corrDBCall(indicator_id, document_id) {
+    console.log(indicator_id, document_id)
+    var collection = db.collection(document_id)
+        .where("INDICATOR_ID", "==", indicator_id);
     //The above query gets population data for the year 2015
     let data = await collection.get().then(function(querySnapshot) {
         console.log(querySnapshot.size);

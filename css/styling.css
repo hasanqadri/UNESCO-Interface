@@ -16,7 +16,6 @@ h3 {
 }
 
 
-
 .state {
     fill:none;
     stroke: black;
@@ -380,3 +379,11 @@ text{
     stroke: #000000;
     stroke-width: 2px;
 }
+svg#correlationChart g.barchart rect.bar-blue{
+    fill: steelblue;
+}
+
+svg#correlationChart g.barchart rect.bar-blue:hover {
+  fill: brown;
+}
+
