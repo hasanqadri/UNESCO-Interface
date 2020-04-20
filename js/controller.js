@@ -45,14 +45,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {apiKey: "AIzaSyBfGZTxS98qEYhSCITdnnQQAfptHtzdMAM",
-                  authDomain: "dva-unesco.firebaseapp.com",
-                  databaseURL: "https://dva-unesco.firebaseio.com",
-                  projectId: "dva-unesco",
-                  storageBucket: "dva-unesco.appspot.com",
-                  messagingSenderId: "121433970216",
-                  appId: "1:121433970216:web:c078f76465bde9e1fd871d",
-                  measurementId: "G-52HNYD8VV9"} //EDITED OUT FOR NOW};
+        const firebaseConfig = {}
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
