@@ -114,6 +114,7 @@ function updateWorldMap() {
         console.log(dataSet)
         $("#worldMap").empty();
         $(".legend").empty();
+        $(".d3-tip").remove();
 
         createWorldMap(dataSet);
     });
