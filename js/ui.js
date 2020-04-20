@@ -1,4 +1,3 @@
-var labelsData = null
 /**
  * Add list of factors to selector form indicator_file.csv
  */
@@ -8,7 +7,6 @@ function addFactorsToSelector() {
         .await(ready);
 
     function ready(error, labels) {
-        labelsData = labels
         labels.forEach(label => {
             let labelIndicator = label["INDICATOR_ID"]
             let labelDocument = label["FILE"].split(",")[0]
@@ -18,9 +16,6 @@ function addFactorsToSelector() {
     }
 }
 
-function getLabelsData() {
-    return labels
-}
 //On change handlers functions
 //on change handler for the country or region specific views triggers this method
 $( "#year" ).change(function() {
@@ -44,10 +39,11 @@ $( "#factor" ).change(function() {
         console.log("updateWorldMap() is called")
         updateWorldMap();
     } else if (view === 'Region') {
-        updateRegion();  //TODO I think Priya worked on this?
-
+        updateWorldMap();
+        $("#worldMap").show();
+        $("#region").hide();
+        $("#country").hide();
     } else if (view === 'Country') {
-        updateCountry();  //TODO I think Priya worked on this?
     }
 });
 

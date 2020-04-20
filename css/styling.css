@@ -374,3 +374,9 @@ text{
 .details{
   color: white;
 }
+
+.line {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 2px;
+}

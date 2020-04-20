@@ -7,6 +7,7 @@ var legend = null
 //Do not call this function to display the world map, call updateWorldMap() instead
 function createWorldMap(dataSet) {
   const format = d3.format(',');
+  $("#sub-title").text($("#factor option:selected").html());
 
   // Set tooltips
   const tip = d3.tip()
@@ -68,9 +69,7 @@ function createWorldMap(dataSet) {
         .style('stroke-width', 0.3)
         // tooltips
         .on('mouseover',function(d){
-            console.log('t1')
             tip.show(d);
-          //console.log(d)
           d3.select(this)
             .style('opacity', 1)
             .style('stroke-width', 3);
@@ -82,13 +81,12 @@ function createWorldMap(dataSet) {
             .style('stroke-width',0.3);
         })
         .on('click', function(d) {
-            console.log('here')
             $("#worldMap").hide();
             $(".legend").hide()
             $("#viewWorldButton").show();
-            $("region").show()
+            $("#region").show()
             $("#view").val("Region")
-            console.log($("#view").val())
+            updateLineChart(d)
         });
 
     svg.append('path')
@@ -108,10 +106,7 @@ function updateWorldMap() {
     let indicator_id = $("#factor").val().split(",")[0];
     let document_id = $("#factor").val().split(",")[1];
     const dataById = {};
-    console.log(indicator_id)
-    console.log(document_id)
     genericDBCall(year, indicator_id, document_id).then(dataSet => {
-        console.log(dataSet)
         $("#worldMap").empty();
         $(".legend").empty();
         $(".d3-tip").remove();

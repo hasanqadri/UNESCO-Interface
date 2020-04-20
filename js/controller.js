@@ -25,7 +25,7 @@ function controller() {
 }
 
 function setupDBConnection() {
-    useMockData = true    //TODO Change this variable based off using mock or real data
+    useMockData = false    //TODO Change this variable based off using mock or real data
     if (useMockData) {
         return null
     } else {
@@ -42,7 +42,7 @@ function setupDBConnection() {
 
 /**
  * Example db call
- * Uses the global db connection to retrieve documents in the "DEM_DATA_NATIONAL" collection
+ * Uses the global db connection to retrieve documents in some collection
  * Then it maps the documents matching the parameters to an array
  * This array is of objects like thus:
  *  [{INDICATOR_ID:"200101", YEAR:"2015", COUNTRY_ID:"USA"}, {...}, ...]
@@ -74,4 +74,24 @@ async function genericDBCall(year, indicator_id, document_id) {
 }
 
 
+async function lineChartDBCall(indicator_id, document_id, country) {
+    var collection = db.collection(document_id)
+        .where("INDICATOR_ID", "==", indicator_id)
+        .where("COUNTRY_ID", "==", country);
+    //The above query gets population data for the year 2015
+    let data = await collection.get().then(function(querySnapshot) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data(); //Each individual object (country's stat)
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 
+    return data
+}

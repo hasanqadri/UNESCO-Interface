@@ -34,6 +34,7 @@
 
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
             <option value="200101,DEM_DATA_NATIONAL">Population</option>
+            <!-- <option value="200101,DEM_DATA_NATIONAL">Population</option>   EXAMPLE  -->
         </select>
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="year">
             <option value="2015">2015</option>
@@ -70,10 +71,11 @@
         <!-- Left div -->
         <div class="innerContainer w3-card-4">
             <h1 class="w3-margin-top  fontCustom w3-margin-bottom w3-center" id="head-title">Global Distribution</h1>
+            <h3 class="w3-margin-top w3-center" id="sub-title"></h3>
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
                 <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
-                <svg id="region" style="display:none"></svg> <!--TODO add regions-->
+                <svg id="region" style="display:none" preserveAspectRatio="xMidYMid" viewBox="0 -80 1250 650"></svg> <!--TODO add regions-->
                 <svg id="country" style="display:none"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
@@ -122,6 +124,7 @@
 <!-- add custom js files here -->
 <script src="js/world-map.js"></script>
 <script src="js/controller.js"></script>
+<script src="js/linechart.js"></script>
 <script src="js/ui.js"></script>
 
 </html>
