@@ -20,7 +20,7 @@ function createLineChart(data) {
         .x(function(d) { return x(d["YEAR"]); })
         .y(function(d) { return y(d["VALUE"]); });
 
-    let svg = d3.select("#region")
+    let svg = d3.select("#country")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -85,13 +85,11 @@ function createLineChart(data) {
 }
 
 function updateLineChart(d = currentCountry) {
-    let country = d.id;
-    currentCountry = d.id;
+    let country = d.COUNTRY_ID;
     let indicator_id = $("#factor").val().split(",")[0];
     let document_id = $("#factor").val().split(",")[1];
-    const dataById = {};
     lineChartDBCall(indicator_id, document_id,country).then(data => {
-        $("#region").empty();
+        $("#country").empty();
         createLineChart(data);
     });
 }

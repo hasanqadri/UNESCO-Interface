@@ -59,9 +59,6 @@
             <option value="Region">Region</option>
             <option value="Country">Country</option>
         </select>
-
-        <input placeholder="Specify region or country" type="text" id="inputRegion" name="inputRegion" class="w3-margin-left-custom"/>
-
     </div>
     </div>
 
@@ -75,7 +72,7 @@
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
                 <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
-                <svg id="region" style="display:none" preserveAspectRatio="xMidYMid" viewBox="0 -80 1250 650"></svg> <!--TODO add regions-->
+                <svg id="region" style="display:none" ></svg> <!--TODO add regions-->
                 <svg id="country" style="display:none"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of UNESCO, retrieved 3/20/2020</i></div>
@@ -125,6 +122,7 @@
 <script src="js/world-map.js"></script>
 <script src="js/controller.js"></script>
 <script src="js/linechart.js"></script>
+<script src="js/bargraph.js"></script>
 <script src="js/ui.js"></script>
 
 </html>
