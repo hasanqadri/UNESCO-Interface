@@ -1,6 +1,10 @@
 currentCountry = null;
 function createLineChart(data) {
+
     let cName = data[0]["COUNTRY_ID"]
+    $("#sub-title").text($("#factor option:selected").html() + ": " + cName);
+    $("#head-title").text("Country over Time");
+
     //margin
     let margin = {top: 20, right: 10, bottom: 40, left: 100},
         width = 960 - margin.left - margin.right,
@@ -43,16 +47,6 @@ function createLineChart(data) {
         .data([data])
         .attr("class", "line")
         .attr("d", valueline);
-
-    //headingFigureOne
-    svg.append("text")
-    .attr("x", width/ 2 )
-    .attr("y", 0)
-    .style("font-weight","bold")
-    .style("text-anchor", "middle")
-    .style("font-size", "20px")
-    .style("font-family","Arial")
-    .text(cName);
 
     //x axis
     svg.append("g")

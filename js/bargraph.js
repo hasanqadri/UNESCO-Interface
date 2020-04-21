@@ -17,8 +17,9 @@ var regionlist=[
 ]
 
 
-function createBarChart(dataSet3, regionMap) {
-
+function createBarChart(dataSet3, regionMap, currCountry) {
+    $("#sub-title").text($("#factor option:selected").html() + ": " + regionMap.region.replace('SDG: ','') );
+    $("#head-title").text("Regional Distribution");
     var margin = {top: 50, right: 75, bottom: 75, left: 75}
         , width = 960 - margin.left - margin.right
         , height = 500 - margin.top - margin.bottom;
@@ -91,7 +92,13 @@ function createBarChart(dataSet3, regionMap) {
         .data(finalData)
         .enter().append("rect")
         .attr("class", "bar")
-        .attr("fill", '#2fd5de')
+        .attr("fill", d => {
+            if (currCountry == d.COUNTRY_ID) {
+                return '#f9ff87'
+            } else {
+                return '#2fd5de'
+            }
+        })
         .attr("x", function (d) {
             return xScale(d.COUNTRY_ID);
         })
@@ -192,7 +199,7 @@ function updateBarChart(data) {
                     $("#region").empty();
                     $(".legend").empty();
                     $(".d3-tip").remove();
-                    createBarChart(dataSet3, regionmap);
+                    createBarChart(dataSet3, regionmap, data.id);
                 });
             }
         });
