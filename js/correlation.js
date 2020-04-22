@@ -1,5 +1,5 @@
-var margin = {top: 50, right: 75, bottom: 75, left: 75}
-  , width = 500 - margin.left - margin.right
+var margin = {top: 50, right: 0, bottom: 75, left: 300}
+  , width = 600 - margin.left - margin.right
   , height = 500 - margin.top - margin.bottom;
 
 function convert_row(d){
@@ -32,21 +32,22 @@ function convert_scatter_row(d){
     return obj;
 }
 
-d3.dsv(",", "../data/SDG/SDG_COUNTRY.csv").then(function(data){
-    countries = {}
-    data.forEach(d=>countries[d["COUNTRY_ID"]]=d["COUNTRY_NAME_EN"])
-    console.log(countries)
-})
+function get_metadata(){
+    d3.dsv(",", "../data/indicator_file.csv", convert_ind_row)
+        .then(function(data){
+            variables = data
+            file_names = []
+            variables.forEach(ind =>{
+                let obj = {"key": ind['INDICATOR_ID'], "file": ind["ROOT"].split(',')[0]+"_DATA_NATIONAL"}
+                file_names.push(obj)
+            });
 
-d3.dsv(",", "../data/indicator_file.csv", convert_ind_row)
-    .then(function(data){
-        variables = data
-        file_names = []
-        variables.forEach(ind =>{
-            let obj = {"key": ind['INDICATOR_ID'], "file": ind["ROOT"].split(',')[0]+"_DATA_NATIONAL"}
-            file_names.push(obj)
+            d3.dsv(",", "../data/SDG/SDG_COUNTRY.csv").then(function(data){
+                countries = {}
+                data.forEach(d=>countries[d["COUNTRY_ID"]]=d["COUNTRY_NAME_EN"])
+            });
         });
-    });
+}
 
 //d3.dsv(",", "../data/dummy_data_cor.csv", convert_row)
 //    .then(function(data){
@@ -103,41 +104,41 @@ var svg_b = d3.select("#correlationChart")
 
 function add_bar_chart(target){
 
-    console.log(variables[0]["INDICATOR_ID"])
-    console.log(target[0][variables[0]["INDICATOR_ID"]])
-
     corr_data = []
     for(j=0; j<variables.length; j++){
         if(variables[j]["INDICATOR_ID"] != target[0]["INDICATOR_ID"]){
             obj = {"key": variables[j]["INDICATOR_ID"], "value": target[0][variables[j]["INDICATOR_ID"]], "desc":variables[j]["DESCRIPTION"]}
             corr_data.push(obj)
         }
+        else{
+            target_desc = variables[j]["DESCRIPTION"]
+        }
     }
-    corr_data.sort(function(a,b){return b.value - a.value})
+    corr_data.sort(function(a,b){return a.value - b.value})
     console.log(corr_data)
 
     svg_bar = svg_b.append("g")
         .attr("class", "barchart")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var barPadding = 0.25;
-    yScale = d3.scaleLinear().range([height, 0]),
-    xScale = d3.scaleBand().range([0, width]).padding(barPadding);
+    var barPadding = 0.5;
+    xScale = d3.scaleLinear().range([0, width]),
+    yScale = d3.scaleBand().range([height, 0]).padding(barPadding);
 
     corr_data = corr_data.filter(function(d) {return d.value > 0;})
-    xScale.domain(corr_data.map(function(d){return d.key; }));
-    yScale.domain([0, 1]);
+    yScale.domain(corr_data.map(function(d){return d.desc; }));
+    xScale.domain([0, 1]);
 
     svg_bar.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale))
-        .selectAll("text")
-        .attr("y", 0)
-        .attr("x", 9)
-        .attr("dy", ".35em")
-        .attr("transform", "rotate(90)")
-        .style("text-anchor", "start");
+//        .selectAll("text")
+//        .attr("y", 0)
+//        .attr("x", 9)
+//        .attr("dy", ".35em")
+//        .attr("transform", "rotate(90)")
+//        .style("text-anchor", "start");
 
     svg_bar.append("g")
         .attr("class", "y axis")
@@ -148,28 +149,28 @@ function add_bar_chart(target){
          .enter().append("rect")
          .attr("class", "bar-blue")
          //.attr("fill", "steelblue")
-         .attr("x", function(d) { return xScale(d.key); })
-         .attr("y", function(d) { return yScale(d.value); })
-         .attr("width", function(d) { return xScale.bandwidth(); })
-         .attr("height", function(d) {return yScale(1-d.value); })
+         .attr("x", 0)
+         .attr("y", function(d) { return yScale(d.desc); })
+         .attr("width", function(d) { return xScale(d.value); })
+         .attr("height", function(d) {return yScale.bandwidth(); })
          .on('click', function(d){onMouseClick(target[0]['INDICATOR_ID'], d.key)});
 
-    svg_bar.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", -60)
-      .attr("x",0 - (height / 2))
-      .attr("dy", "1em")
-      .attr("font-size", "15px")
-      .style("text-anchor", "middle")
-      .text("Correlation Value");
-
 //    svg_bar.append("text")
-//      .attr("transform",
-//            "translate(" + (width/2) + " ," +
-//                           (height + margin.bottom/2) + ")")
-//      .style("text-anchor", "middle")
+//      .attr("transform", "rotate(-90)")
+//      .attr("y", -60)
+//      .attr("x",0 - (height / 2))
+//      .attr("dy", "1em")
 //      .attr("font-size", "15px")
-//      .text("Variables");
+//      .style("text-anchor", "middle")
+//      .text("Correlation Value");
+
+    svg_bar.append("text")
+      .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (height + margin.bottom/2) + ")")
+      .style("text-anchor", "middle")
+      .attr("font-size", "15px")
+      .text("Correlation with "+target_desc);
 
 }
 
@@ -194,10 +195,6 @@ var svg_scatter = d3.select("#scatterChart")
 
 function add_scatter_chart(x_scat,y_scat){
 
-    //console.log("***********************")
-    console.log(x_scat)
-    console.log(y_scat)
-
     data = []
     for (i=0; i<x_scat.length; i++){
         obj = {}
@@ -217,7 +214,6 @@ function add_scatter_chart(x_scat,y_scat){
           }
     }
 
-    console.log(merged)
 
     var svg = svg_scatter.append("g")
                         .attr("class", "bubblechart")
