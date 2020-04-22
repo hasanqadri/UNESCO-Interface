@@ -22,13 +22,12 @@ function controller() {
             createWorldMap(result)
         });
 
-        ind_id = "GER.02"
         var ind_2 = "CR.2"
         var doc_id = "SDG_DATA_NATIONAL"
-        corrDBCall(ind_id, 'correlation').then(
+        corrDBCall(indicator_id, 'correlation').then(
             c_result => {
             get_metadata()
-            genericDBCall(year, ind_id, doc_id).then(res_1 => {
+            genericDBCall(year, indicator_id, document_id).then(res_1 => {
                 genericDBCall(year, ind_2, doc_id).then(res_2 => {
                 add_bar_chart(c_result)
                 add_scatter_chart(res_1, res_2)
