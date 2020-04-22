@@ -257,12 +257,6 @@ path.domain {
 }
 
 
-.axis path,
-.axis tick,
-.axis line {
-    fill: none;
-    stroke: none;
-}
 
 #x-axis text {
 
@@ -345,7 +339,7 @@ path.domain {
 }
 
 /* Creates a small triangle extender for the tooltip */
-.d3-tip:after {      
+.d3-tip:after {
   box-sizing: border-box;
   display: inline;
   font-size: 8px;
@@ -354,7 +348,7 @@ path.domain {
   color: rgba(0, 0, 0, 0.6);
   position: absolute;
   pointer-events: none;
-  
+
 }
 
 /* Northward tooltips */
@@ -391,7 +385,7 @@ path.domain {
   left: 100%;
 }
 
-/*    
+/*
 text{
   pointer-events:none;
 }

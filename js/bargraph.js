@@ -19,137 +19,180 @@ var regionlist = [
 function createBarChart(regionMap, currCountry, mData, fData) {
     $("#sub-title").text($("#factor option:selected").html() + ": " + regionMap.region.replace('SDG: ','') );
     $("#head-title").text("Regional Distribution");
-    var margin = {top: 50, right: 75, bottom: 75, left: 75}
-        , width = 960 - margin.left - margin.right
-        , height = 500 - margin.top - margin.bottom;
+
+    const tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(d => `<strong>Value: </strong><span class='details'>${d.grpValue}<br></span>`);
+
     let finalData = []
     let finalDataF = []
+
     mData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
     mData.forEach(d => {
         if ((Object.keys(regionMap).includes(d.COUNTRY_ID))) {
             finalData.push(d)
         }
     });
-    if (fData != undefined) {
+
+    //Preprocess data
+    let groupData = [];
+    console.log(fData)
+    if (fData == undefined) {
+        finalData.forEach(elem => {
+            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Country', grpValue:elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+        });
+    } else {
         fData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
         fData.forEach(d => {
             if ((Object.keys(regionMap).includes(d.COUNTRY_ID))) {
                 finalDataF.push(d)
             }
         });
+
+        finalData.forEach(elem => {
+            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Male', grpValue:elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+        });
+        finalDataF.forEach(elem => {
+            groupData.forEach(d => {
+                if (d.key == elem.COUNTRY_ID) {
+                    d.values.push({grpName:'Female', grpValue: elem.VALUE, grpCountry: elem.COUNTRY_ID})
+                }
+            })
+        });
     }
 
-    let svg_bar = d3.select("#region")
-        .attr("class", "barchart")
+    console.log(groupData)
+
+    var margin = {top: 20, right: 65, bottom: 30, left: 40},
+        width = 1000 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+
+
+    var x0  = d3.scaleBand().rangeRound([0, width], .5);
+    var x1  = d3.scaleBand();
+    var y   = d3.scaleLinear().rangeRound([height, 0]);
+
+    var xAxis = d3.axisBottom().scale(x0)
+        .tickValues(groupData.map(d=>d.key));
+
+    var yAxis = d3.axisLeft().scale(y);
+
+    const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var svg = d3.select('#region')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var barPadding = 0.25;
-        yScale = d3.scaleLinear().range([height, 0]),
-            xScale = d3.scaleBand().range([0, width]).padding(barPadding);
+    var categoriesNames = groupData.map(function(d) { return d.key; });
+    var rateNames       = groupData[0].values.map(function(d) { return d.grpName; });
 
-    xScale.domain(finalData.map(function (d) {
-        return d.COUNTRY_ID;
-    }));
-    yScale.domain([0, d3.max(finalData, function(d) { return +d["VALUE"]; })]);
+    x0.domain(categoriesNames);
+    x1.domain(rateNames).rangeRound([0, x0.bandwidth()]);
+    y.domain([0, d3.max(groupData, function(key) { return d3.max(key.values, function(d) { return d.grpValue; }); })]);
 
-    svg_bar.append("g")
+    svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale))
-        .selectAll("text").attr("y", 0).attr("x", 9).attr("dy", ".35em").attr("transform", "rotate(90)").style("text-anchor", "start");
+        .attr("transform", "translate(2," + height + ")")
+        .call(xAxis);
 
-    svg_bar.append("g")
+
+    svg.append("g")
         .attr("class", "y axis")
-        .call(d3.axisLeft(yScale));
+        .style('opacity','0')
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .style('font-weight','bold')
+        .text("Value");
+    svg.call(tip);
 
-    svg_bar.selectAll("rect" + 0)
-        .data(finalData)
+    svg.select('.y').transition().duration(500).delay(1300).style('opacity','1');
+
+    var slice = svg.selectAll(".slice")
+        .data(groupData)
+        .enter().append("g")
+        .attr("class", "g")
+        .attr("transform",function(d) { return "translate(" + x0(d.key) + ",0)"; });
+
+    slice.selectAll("rect")
+        .data(function(d) { return d.values; })
         .enter().append("rect")
-        .attr("class", "bar")
-        .attr("fill", d => {
-            if (currCountry == d.COUNTRY_ID) {
-                return '#1cff34'
-            } else {
-                return '#20de2a'
+        .attr("width", x1.bandwidth())
+        .attr("x", function(d) { return x1(d.grpName); })
+        .style("fill", function(d) {
+            return color(d.grpName)
+        })
+        .style('opacity', d => {
+            if (d.grpCountry == currCountry) {
+                return 1
             }
+            return .3
         })
-        .attr("x", function (d) {
-            return xScale(d.COUNTRY_ID);
-        })
-        .attr("y", function (d) {
-            return yScale(d.VALUE);
-        })
-        .attr("width", function (d) {
-            return xScale.bandwidth();
-        })
-        .attr("height", function (d) {
-            return yScale(0) - yScale(d.VALUE);
-        })
-        .on('mouseover',function(d){
+        .attr("y", function(d) { return y(0); })
+        .attr("height", function(d) { return height - y(0); })
+        .on("mouseover", function(d) {
+            console.log(d)
+            tip.show(d)
             d3.select(this)
-                .style('opacity', .5)
+                .style("fill", "red")
                 .style('stroke-width', .3);
         })
-        .on('mouseout', function(d){
+        .on("mouseout", function(d) {
+            tip.hide(d)
             d3.select(this)
-                .style('opacity', 1)
+                .style("fill", color(d.grpName))
                 .style('stroke-width',3);
         })
-        .on('click', function(d) {
-                $("#region").hide()
-                $("#country").show()
-                $("#view").val("Country")
-                updateLineChart(d)
+        .on('click', d => {
+            $("#region").hide()
+            $("#country").show()
+            $("#view").val("Country")
+            updateLineChart(d.grpName, d.grpCountry )
+
         });
 
 
-     svg_bar.selectAll("rect" + 1)
-         .data(finalDataF)
-         .enter().append("rect")
-         .attr("class", "bar")
-         .attr("fill",  d => {
-             if (currCountry == d.COUNTRY_ID) {
-                 return '#ff2b57'
-             } else {
-                 return '#de213e'
-             }
-         })
-         .attr("x", function (d) {
-             return xScale(d.COUNTRY_ID);
-         })
-         .attr("y", function (d) {
-             return yScale(d.VALUE);
-         })
-         .attr("width", function (d) {
-             return xScale.bandwidth();
-         })
-         .attr("height", function (d) {
-             return yScale(0) - yScale(d.VALUE);
-         });
+    slice.selectAll("rect")
+        .transition()
+        .delay(function (d) {return Math.random()*1000;})
+        .duration(1000)
+        .attr("y", function(d) { return y(d.grpValue); })
+        .attr("height", function(d) { return height - y(d.grpValue); });
 
-    svg_bar.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -60)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .attr("font-size", "15px")
-        .style("text-anchor", "middle")
-        .text($("#factor option:selected").html());
+    //Legend
+    var legend = svg.selectAll(".legend")
+        .data(groupData[0].values.map(function(d) { return d.grpName; }).reverse())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; })
+        .style("opacity","0");
 
-    svg_bar.append("text")
-        .attr("transform",
-            "translate(" + (width / 2) + " ," +
-            (height + margin.bottom / 2) + ")")
-        .style("text-anchor", "middle")
-        .attr("font-size", "20px")
-        .text("Country");
+    legend.append("rect")
+        .attr("x", width+45)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", function(d) { return color(d); });
+
+    legend.append("text")
+        .attr("x", width + 40)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) {return d; });
+
+    legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
+
 }
 
-
 function updateBarChart(data) {
+    console.log('here')
     let year = $("#year").val();
     let indicator_id = $("#factor").val().split(",")[0];
     let document_id = $("#factor").val().split(",")[1];
@@ -196,8 +239,6 @@ function updateBarChart(data) {
                         //Male female differention
                         genericDBCall(year, indicator_id + ".M", document_id).then(maleData => {
                             genericDBCall(year, indicator_id + ".F", document_id).then(femaleData => {
-                                console.log(maleData)
-                                console.log(femaleData)
                                 createBarChart(regionmap, data.id, maleData, femaleData);
                             });
                         });
@@ -208,3 +249,29 @@ function updateBarChart(data) {
         });
     });
 }
+
+/***
+ .on('mouseover',function(d){
+            console.log(d)
+            tip.show(d)
+            d3.select(this)
+                .style('opacity', .5)
+                .style('stroke-width', .3);
+        }).on('mouseout', function(d){
+            tip.hide(d)
+            d3.select(this)
+                .style('opacity', 1)
+                .style('stroke-width',3);
+        }).on('click', function(d) {
+            $("#region").hide()
+            $("#country").show()
+            $("#view").val("Country")
+            updateLineChart(d)
+        });
+
+ const tip = d3.tip()
+ .attr('class', 'd3-tip')
+ .offset([-10, 0])
+ .html(d => `<strong>Value: </strong><span class='details'>${d.VALUE}<br></span>`);
+
+ **/

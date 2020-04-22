@@ -8,7 +8,7 @@ var legend = null
 function createWorldMap(dataSet) {
   const format = d3.format(',');
   $("#sub-title").text($("#factor option:selected").html());
-  console.log('here')
+
   $("#head-title").text("Global Distribution");
   // Set tooltips
   const tip = d3.tip()

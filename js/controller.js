@@ -27,11 +27,9 @@ function controller() {
         doc_id = "SDG_DATA_NATIONAL"
         corrDBCall(ind_id, 'correlation').then(
             c_result => {
-            get_metadata()
-
+            add_bar_chart(c_result)
             genericDBCall('2018', ind_id, doc_id).then(res_1 => {
                 genericDBCall('2018', ind_2, doc_id).then(res_2 => {
-                add_bar_chart(c_result)
                 add_scatter_chart(res_1, res_2)
             });
             });
@@ -88,26 +86,24 @@ async function genericDBCall(year, indicator_id, document_id) {
 }
 
 async function corrDBCall(indicator_id, document_id) {
+    var collection = db.collection(document_id)
+        .where("INDICATOR_ID", "==", indicator_id);
+    //The above query gets population data for the year 2015
+    let data = await collection.get().then(function(querySnapshot) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data(); //Each individual object (country's stat)
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 
-        var collection = db.collection(document_id)
-            .where("INDICATOR_ID", "==", indicator_id);
-        //The above query gets population data for the year 2015
-        let data = await collection.get().then(function(querySnapshot) {
-            console.log(querySnapshot.size);
-            if (querySnapshot.size > 0) {
-                return querySnapshot.docs.map(function (documentSnapshot) {
-                    return documentSnapshot.data(); //Each individual object (country's stat)
-                })
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-
-        return data
-
+    return data
 }
 
 /***
