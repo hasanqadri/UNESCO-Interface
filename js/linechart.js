@@ -79,7 +79,8 @@ function createLineChart(data) {
 function updateLineChart(gender, countryID) {
     let country = countryID;
     let indicator_id = $("#factor").val().split(",")[0];
-    $("#sub-title").text(country);
+    console.log(getCountryName(country))
+    $("#sub-title").text(getCountryName(country));
     $("#head-title").text($("#factor option:selected").html() + " " + "over Time");
 
     if (gender == "Male") {

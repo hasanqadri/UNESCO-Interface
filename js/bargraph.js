@@ -23,7 +23,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     const tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
-        .html(d => `<strong>Value: </strong><span class='details'>${d.grpValue}<br></span>`);
+        .html(d => `<strong>Country: </strong><span class='details'>${getCountryName(d.grpCountry)}<br></span><strong>Value: </strong><span class='details'>${d.grpValue}<br></span>`);
 
     let finalData = []
     let finalDataF = []

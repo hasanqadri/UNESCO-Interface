@@ -1,12 +1,18 @@
 /**
  * Add list of factors to selector form indicator_file.csv
  */
+var countryDict = {}
 function addFactorsToSelector() {
     queue()
         .defer(d3.csv, 'data/indicator_file.csv')
+        .defer(d3.csv, 'data/SDG/SDG_COUNTRY.csv')
         .await(ready);
+    d3.dsv(",", "../data/SDG/SDG_COUNTRY.csv").then(function(data){
 
-    function ready(error, labels) {
+    });
+    function ready(error, labels, data) {
+        console.log(data)
+        data.forEach(d=>countryDict[d["COUNTRY_ID"]]=d["COUNTRY_NAME_EN"])
         labels.forEach(label => {
             let labelIndicator = label["INDICATOR_ID"]
             let labelDocument = label["FILE"].split(",")[0]
@@ -17,6 +23,12 @@ function addFactorsToSelector() {
         })
     }
 }
+
+function getCountryName(cId) {
+    console.log(countryDict)
+    return countryDict[cId]
+}
+
 
 //On change handlers functions
 //on change handler for the country or region specific views triggers this method
