@@ -231,7 +231,7 @@ function add_scatter_chart(x_scat,y_scat){
         .call(d3.axisBottom(xScale));
 
     tip = d3.tip()
-        .attr('class', 'd3-tip-c')
+        .attr('class', 'd3-tip')
         .style("stroke", "gray")
         .html(function(d) { return "<strong>Country:</strong> "+countries[d['COUNTRY_ID']]+"<br/><strong>x:</strong> "+ d['X_VALUE']+"<br/><strong>y:</strong> "+ d['VALUE']; });
 
