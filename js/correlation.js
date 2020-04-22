@@ -31,6 +31,13 @@ function convert_scatter_row(d){
     }
     return obj;
 }
+
+d3.dsv(",", "../data/SDG/SDG_COUNTRY.csv").then(function(data){
+    countries = {}
+    data.forEach(d=>countries[d["COUNTRY_ID"]]=d["COUNTRY_NAME_EN"])
+    console.log(countries)
+})
+
 d3.dsv(",", "../data/indicator_file.csv", convert_ind_row)
     .then(function(data){
         variables = data
@@ -117,6 +124,7 @@ function add_bar_chart(target){
     yScale = d3.scaleLinear().range([height, 0]),
     xScale = d3.scaleBand().range([0, width]).padding(barPadding);
 
+    corr_data = corr_data.filter(function(d) {return d.value > 0;})
     xScale.domain(corr_data.map(function(d){return d.key; }));
     yScale.domain([0, 1]);
 
@@ -226,8 +234,12 @@ function add_scatter_chart(x_scat,y_scat){
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScale));
 
-    //tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "Country: "+d.Countries+"<br/>Indicator Value: "+d.Variables; });
-    //svg_scatter.call(tip);
+    tip = d3.tip()
+        .attr('class', 'd3-tip-c')
+        .style("stroke", "gray")
+        .html(function(d) { return "<strong>Country:</strong> "+countries[d['COUNTRY_ID']]+"<br/><strong>x:</strong> "+ d['X_VALUE']+"<br/><strong>y:</strong> "+ d['VALUE']; });
+
+    svg_scatter.call(tip);
 
 
     svg.append("g")
@@ -243,6 +255,8 @@ function add_scatter_chart(x_scat,y_scat){
         .attr("cy", function (d) { return yScale(d["VALUE"]); } )
         .attr("r", 5)//function(d){return d["Population"]/1000})
         .style("fill", "maroon")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
 
     let y_label = variables.find((itmInner) => itmInner['INDICATOR_ID'] === y_scat[0]['INDICATOR_ID'])['DESCRIPTION']
     svg.append("text")
