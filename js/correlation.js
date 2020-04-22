@@ -107,7 +107,7 @@ function add_bar_chart(target){
     corr_data = []
     for(j=0; j<variables.length; j++){
         if(variables[j]["INDICATOR_ID"] != target[0]["INDICATOR_ID"]){
-            obj = {"key": variables[j]["INDICATOR_ID"], "value": target[0][variables[j]["INDICATOR_ID"]], "desc":variables[j]["DESCRIPTION"]}
+            obj = {"key": variables[j]["INDICATOR_ID"], "value": +target[0][variables[j]["INDICATOR_ID"]], "desc":variables[j]["DESCRIPTION"]}
             corr_data.push(obj)
         }
         else{
@@ -222,8 +222,8 @@ function add_scatter_chart(x_scat,y_scat){
     yScale = d3.scaleLinear().range([height, 0]),
     xScale = d3.scaleLinear().range([0, width]);
 
-    xScale.domain([0, 2*d3.max(merged, function(d){return d["X_VALUE"]; })]);
-    yScale.domain([0, 2*d3.max(merged, function(d) { return d["VALUE"]; })]);
+    xScale.domain([0, 1.1*d3.max(merged, function(d){return +d["X_VALUE"]; })]);
+    yScale.domain([0, 1.1*d3.max(merged, function(d) { return +d["VALUE"]; })]);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -247,8 +247,8 @@ function add_scatter_chart(x_scat,y_scat){
         .data(merged)
         .enter()
         .append("circle")
-        .attr("cx", function (d) { return xScale(d['X_VALUE']); } )
-        .attr("cy", function (d) { return yScale(d["VALUE"]); } )
+        .attr("cx", function (d) { return xScale(+d['X_VALUE']); } )
+        .attr("cy", function (d) { return yScale(+d["VALUE"]); } )
         .attr("r", 5)//function(d){return d["Population"]/1000})
         .style("fill", "maroon")
         .on('mouseover', tip.show)
