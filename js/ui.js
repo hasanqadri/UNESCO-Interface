@@ -24,7 +24,8 @@ $( "#year" ).change(function() {
     updateWorldMap();
     $("#worldMap").show();
     $("#region").hide();
-    $("#country").hide()
+    $("#country").hide();
+    change_chart();
 });
 
 //On change handler for the factors triggers this method
@@ -34,6 +35,7 @@ $( "#factor" ).change(function() {
     $("#worldMap").show();
     $("#region").hide();
     $("#country").hide();
+    change_chart();
 });
 
 //on change handler for the country or region specific views triggers this method
