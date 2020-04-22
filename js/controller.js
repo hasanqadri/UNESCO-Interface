@@ -27,9 +27,11 @@ function controller() {
         doc_id = "SDG_DATA_NATIONAL"
         corrDBCall(ind_id, 'correlation').then(
             c_result => {
-            add_bar_chart(c_result)
+            get_metadata()
+
             genericDBCall('2018', ind_id, doc_id).then(res_1 => {
                 genericDBCall('2018', ind_2, doc_id).then(res_2 => {
+                add_bar_chart(c_result)
                 add_scatter_chart(res_1, res_2)
             });
             });
@@ -44,14 +46,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = { apiKey: "AIzaSyBfGZTxS98qEYhSCITdnnQQAfptHtzdMAM",
-            authDomain: "dva-unesco.firebaseapp.com",
-            databaseURL: "https://dva-unesco.firebaseio.com",
-            projectId: "dva-unesco",
-            storageBucket: "dva-unesco.appspot.com",
-            messagingSenderId: "121433970216",
-            appId: "1:121433970216:web:c078f76465bde9e1fd871d",
-            measurementId: "G-52HNYD8VV9"}
+        const firebaseConfig = { }
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -93,7 +88,7 @@ async function genericDBCall(year, indicator_id, document_id) {
 }
 
 async function corrDBCall(indicator_id, document_id) {
-    if (false) {
+
         var collection = db.collection(document_id)
             .where("INDICATOR_ID", "==", indicator_id);
         //The above query gets population data for the year 2015
@@ -112,7 +107,7 @@ async function corrDBCall(indicator_id, document_id) {
         });
 
         return data
-    }
+
 }
 
 /***

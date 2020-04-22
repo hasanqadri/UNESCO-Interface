@@ -68,6 +68,33 @@ path {
     stroke-linecap: round;
 }
 
+.d3-tip-c {
+  line-height: 1.4;
+  padding: 5px;
+  font-size: 12px;
+  background: rgba(128,0,0,0.8);
+  color: #fff;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(128, 0, 0, 0.4);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+.d3-tip-c.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
 .districts {
     fill: #bbb;
 }
@@ -278,8 +305,8 @@ path.domain {
 
 .innerContainer2 {
     position: relative;
-    overflow: hidden;
-    flex: 0 1 1100px;
+
+    flex: 0 1 1400px;
     flex-flow: row wrap;
     top: 20px;
 }
