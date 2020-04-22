@@ -64,7 +64,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
 
     console.log(groupData)
 
-    var margin = {top: 20, right: 65, bottom: 30, left: 40},
+    var margin = {top: 20, right: 65, bottom: 40, left: 50},
         width = 1000 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -166,6 +166,24 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .attr("y", function(d) { return y(d.grpValue); })
         .attr("height", function(d) { return height - y(d.grpValue); });
 
+    //yaxislabelfig1
+    svg.append("text")
+        .attr("x", -height/2)
+        .attr("y", -30).attr("transform", "rotate(-90)")
+        .style("font-size", "20px")
+        .style("font-family","Arial")
+        .style("text-anchor", "middle")
+        .text($("#factor option:selected").html());
+
+
+    //xaxislabelfig1
+    svg.append("text")
+        .attr("x", width/2)
+        .attr("y", height+35)
+        .style("font-size", "20px")
+        .style("font-family","Arial")
+        .style("text-anchor", "middle")
+        .text("Country");
     //Legend
     var legend = svg.selectAll(".legend")
         .data(groupData[0].values.map(function(d) { return d.grpName; }).reverse())
@@ -192,6 +210,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
 }
 
 function updateBarChart(data) {
+
     console.log('here')
     let year = $("#year").val();
     let indicator_id = $("#factor").val().split(",")[0];

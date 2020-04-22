@@ -2,7 +2,6 @@ currentCountry = null;
 function createLineChart(data) {
 
     let cName = data[0]["COUNTRY_ID"]
-    $("#head-title").text("Country over Time");
 
     //margin
     let margin = {top: 40, right: 10, bottom: 40, left: 100},
@@ -80,14 +79,15 @@ function createLineChart(data) {
 function updateLineChart(gender, countryID) {
     let country = countryID;
     let indicator_id = $("#factor").val().split(",")[0];
-    $("#sub-title").text($("#factor option:selected").html() + ": " + country);
+    $("#sub-title").text(country);
+    $("#head-title").text($("#factor option:selected").html() + " " + "over Time");
 
     if (gender == "Male") {
         indicator_id = indicator_id + ".M"
-        $("#sub-title").text("Male " + $("#factor option:selected").html() + ": " + country);
+        $("#head-title").text("Male " + $("#factor option:selected").html()+ " " + "over Time");
     } else if (gender == "Female") {
         indicator_id = indicator_id + ".F"
-        $("#sub-title").text("Female " + $("#factor option:selected").html() + ": " + country);
+        $("#head-title").text("Female " + $("#factor option:selected").html() + " " + "over Time");
     }
 
     let document_id = $("#factor").val().split(",")[1];
