@@ -93,9 +93,36 @@ function add_select_box(){
             change_chart(selected);
     })
 }
+function get_ind(target){
+    for(j=0; j<variables.length; j++){
+            if(variables[j]["INDICATOR_ID"] != target[0]["INDICATOR_ID"] && +target[0][variables[j]["INDICATOR_ID"]]>0){
+                ind_2 = variables[j]["INDICATOR_ID"]
+                doc_id = file_names.find((itmInner) => itmInner.key === ind_2).file
+            }
+        }
+}
+
 function change_chart(indicator){
+    let year = $("#year").val();
+    let indicator_id = $("#factor").val().split(",")[0];
+    let document_id = $("#factor").val().split(",")[1];
     d3.selectAll(".barchart").remove();
-    add_bar_chart(""+indicator);
+    d3.selectAll(".bubblechart").remove();
+
+    corrDBCall(indicator_id, 'correlation').then(
+        c_result => {
+        add_bar_chart(c_result)
+
+        var promises = [get_ind(c_result)];
+        Promise.all(promises).then(ready_scat);
+        function ready_scat(e){
+            genericDBCall(year, indicator_id, document_id).then(res_1 => {
+                genericDBCall(year, ind_2, doc_id).then(res_2 => {
+                    add_scatter_chart(res_1, res_2)
+                });
+            });
+        }
+    });
 }
 
 var svg_b = d3.select("#correlationChart")
@@ -107,7 +134,7 @@ function add_bar_chart(target){
     corr_data = []
     for(j=0; j<variables.length; j++){
         if(variables[j]["INDICATOR_ID"] != target[0]["INDICATOR_ID"]){
-            obj = {"key": variables[j]["INDICATOR_ID"], "value": target[0][variables[j]["INDICATOR_ID"]], "desc":variables[j]["DESCRIPTION"]}
+            obj = {"key": variables[j]["INDICATOR_ID"], "value": +target[0][variables[j]["INDICATOR_ID"]], "desc":variables[j]["DESCRIPTION"]}
             corr_data.push(obj)
         }
         else{
@@ -180,8 +207,9 @@ function onMouseClick(x, y){
     doc_x = file_names.find((itmInner) => itmInner.key === x).file
     doc_y = file_names.find((itmInner) => itmInner.key === y).file
 
-    genericDBCall('2015', x, doc_x).then(res_1 => {
-                genericDBCall('2015', y, doc_y).then(res_2 => {
+    let year = $("#year").val();
+    genericDBCall(year, x, doc_x).then(res_1 => {
+                genericDBCall(year, y, doc_y).then(res_2 => {
                 console.log("Got db data!!")
                 add_scatter_chart(res_1, res_2)
         });
@@ -222,8 +250,8 @@ function add_scatter_chart(x_scat,y_scat){
     yScale = d3.scaleLinear().range([height, 0]),
     xScale = d3.scaleLinear().range([0, width]);
 
-    xScale.domain([0, 2*d3.max(merged, function(d){return d["X_VALUE"]; })]);
-    yScale.domain([0, 2*d3.max(merged, function(d) { return d["VALUE"]; })]);
+    xScale.domain([0, 1.1*d3.max(merged, function(d){return +d["X_VALUE"]; })]);
+    yScale.domain([0, 1.1*d3.max(merged, function(d) { return +d["VALUE"]; })]);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -231,7 +259,7 @@ function add_scatter_chart(x_scat,y_scat){
         .call(d3.axisBottom(xScale));
 
     tip = d3.tip()
-        .attr('class', 'd3-tip-c')
+        .attr('class', 'd3-tip')
         .style("stroke", "gray")
         .html(function(d) { return "<strong>Country:</strong> "+countries[d['COUNTRY_ID']]+"<br/><strong>x:</strong> "+ d['X_VALUE']+"<br/><strong>y:</strong> "+ d['VALUE']; });
 
@@ -247,8 +275,8 @@ function add_scatter_chart(x_scat,y_scat){
         .data(merged)
         .enter()
         .append("circle")
-        .attr("cx", function (d) { return xScale(d['X_VALUE']); } )
-        .attr("cy", function (d) { return yScale(d["VALUE"]); } )
+        .attr("cx", function (d) { return xScale(+d['X_VALUE']); } )
+        .attr("cy", function (d) { return yScale(+d["VALUE"]); } )
         .attr("r", 5)//function(d){return d["Population"]/1000})
         .style("fill", "maroon")
         .on('mouseover', tip.show)
