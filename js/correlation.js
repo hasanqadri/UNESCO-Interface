@@ -1,5 +1,5 @@
 var margin = {top: 50, right: 0, bottom: 75, left: 300}
-  , width = 600 - margin.left - margin.right
+  , width = 650 - margin.left - margin.right
   , height = 500 - margin.top - margin.bottom;
 
 function convert_row(d){
@@ -214,10 +214,10 @@ function add_scatter_chart(x_scat,y_scat){
           }
     }
 
-
+    left = margin.left - 150
     var svg = svg_scatter.append("g")
                         .attr("class", "bubblechart")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                        .attr("transform", "translate(" + left + "," + margin.top + ")");
 
     yScale = d3.scaleLinear().range([height, 0]),
     xScale = d3.scaleLinear().range([0, width]);
