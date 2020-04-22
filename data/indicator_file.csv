@@ -1,6 +1,6 @@
 INDICATOR_ID,ROOT,FILE,DESCRIPTION
 GER.02,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,  EDUN_DATA_REGIONAL","Gross enrolment ratio, pre-primary"
-OAEPG.1,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL","Percentage of pupils enrolled in primary education"
+OAEPG.1,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL","Percentage of overage pupils enrolled in primary education"
 ROFST.1.cp,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL","Out-of-school rate for primary school age"
 CR.1,"SDG, EDUN","SDG_DATA_NATIONAL, EDUN_DATA_NATIONAL","Completion rate, primary education"
 ROFST.2.cp,"SDG, EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL","Out-of-school rate for lower secondary school age"
@@ -20,15 +20,6 @@ XUNIT.GDPcap.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding seco
 XUNIT.GDPcap.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial govt funding upper secondary as % of GDP/capita
 XUNIT.GDPcap.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial govt funding tertiary as % of GDP/capita
 XUNIT.GDPcap.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding tertiary as % of GDP/capita
-XUNIT.PPPconst.02.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding pre-primary student, PPP$"
-XUNIT.PPPconst.1.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding primary student, PPP$"
-XUNIT.PPPconst.1.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding primary student, PPP$"
-XUNIT.PPPconst.2.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding lower secondary student, PPP$"
-XUNIT.PPPconst.2t3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding secondary student, PPP$"
-XUNIT.PPPconst.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding secondary student, PPP$"
-XUNIT.PPPconst.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding upper secondary student, PPP$"
-XUNIT.PPPconst.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial govt funding tertiary student, PPP$"
-XUNIT.PPPconst.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding tertiary student, PPP$"
 SchBSP.1.Wcomput,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to computers
 SchBSP.1.WElec,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to electricity
 SchBSP.1.WIntern,SDG,SDG_DATA_NATIONAL,Proportion of primary schools with access to Internet
