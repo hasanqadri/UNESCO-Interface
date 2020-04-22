@@ -256,12 +256,13 @@ function add_scatter_chart(x_scat,y_scat){
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(xScale));
+        .call(d3.axisBottom(xScale).ticks(8));
 
     tip = d3.tip()
         .attr('class', 'd3-tip')
         .style("stroke", "gray")
-        .html(function(d) { return "<strong>Country:</strong> "+countries[d['COUNTRY_ID']]+"<br/><strong>x:</strong> "+ d['X_VALUE']+"<br/><strong>y:</strong> "+ d['VALUE']; });
+        .html(function(d) { return "<strong>Country:</strong><span class='details'> "+countries[d['COUNTRY_ID']]+"<br></span><strong>x:</strong><span class='details'> "+ d['X_VALUE']+"<br/></span><strong>y:</strong><span class='details'> "+ d['VALUE'];})
+
 
     svg_scatter.call(tip);
 
