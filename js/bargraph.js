@@ -64,7 +64,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
 
     console.log(groupData)
 
-    var margin = {top: 20, right: 65, bottom: 60, left: 50},
+    var margin = {top: 20, right: 65, bottom: 60, left: 100},
         width = 1000 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -169,7 +169,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     //yaxislabelfig1
     svg.append("text")
         .attr("x", -height/2)
-        .attr("y", -30).attr("transform", "rotate(-90)")
+        .attr("y", -70).attr("transform", "rotate(-90)")
         .style("font-size", "20px")
         .style("font-family","Arial")
         .style("text-anchor", "middle")
