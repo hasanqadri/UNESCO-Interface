@@ -1,5 +1,5 @@
-var documentIdWithGender = []
-var regionlist=[
+var documentIdWithGender = [];
+var regionlist = [
     "SDG: Africa (Northern)",
     "SDG: Africa (Sub-Saharan)",
     "SDG: Asia (Central and Southern)",
@@ -14,54 +14,31 @@ var regionlist=[
     "SDG: Oceania (Australia/New Zealand)",
     "SDG: Small Island Developing States",
     "SDG: Western Asia and Northern Africa"
-]
+];
 
-
-function createBarChart(dataSet3, regionMap, currCountry) {
+function createBarChart(regionMap, currCountry, mData, fData) {
     $("#sub-title").text($("#factor option:selected").html() + ": " + regionMap.region.replace('SDG: ','') );
     $("#head-title").text("Regional Distribution");
     var margin = {top: 50, right: 75, bottom: 75, left: 75}
         , width = 960 - margin.left - margin.right
         , height = 500 - margin.top - margin.bottom;
     let finalData = []
-    dataSet3.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
-
-    console.log(dataSet3)
-    console.log(regionMap)
-    dataSet3.forEach(d => {
-       if ((Object.keys(regionMap).includes(d.COUNTRY_ID))) {
+    let finalDataF = []
+    mData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
+    mData.forEach(d => {
+        if ((Object.keys(regionMap).includes(d.COUNTRY_ID))) {
             finalData.push(d)
-       }
-    });
-
-    let dataM = [];
-    let dataF = [];
-
-    /**
-    for (i = 0; i < csv.length; i++) {
-
-        // console.log(regionmap[csv[i]["COUNTRY_ID"]])
-
-        // console.log(csv[i])
-        if (csv[i]["YEAR"] == year && regionmap[csv[i]["COUNTRY_ID"]] == region) {
-            console.log(csv[i]["COUNTRY_ID"]);
-            obj = {};
-            obj["COUNTRY_ID"] = csv[i]["COUNTRY_ID"];
-            obj["VALUE"] = csv[i]["VALUE"];
-
-            if (csv[i]["INDICATOR_ID"].includes("M")) {
-                dataM.push(obj)
-            }
-            else {
-                dataF.push(obj)
-            }
         }
+    });
+    if (fData != undefined) {
+        fData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
+        fData.forEach(d => {
+            if ((Object.keys(regionMap).includes(d.COUNTRY_ID))) {
+                finalDataF.push(d)
+            }
+        });
     }
-     **/
-    // console.log(dataM)
-    console.log("We got here")
-    console.log(regionMap)
-    console.log(finalData)
+
     let svg_bar = d3.select("#region")
         .attr("class", "barchart")
         .attr("width", width + margin.left + margin.right)
@@ -94,9 +71,9 @@ function createBarChart(dataSet3, regionMap, currCountry) {
         .attr("class", "bar")
         .attr("fill", d => {
             if (currCountry == d.COUNTRY_ID) {
-                return '#f9ff87'
+                return '#1cff34'
             } else {
-                return '#2fd5de'
+                return '#20de2a'
             }
         })
         .attr("x", function (d) {
@@ -125,16 +102,21 @@ function createBarChart(dataSet3, regionMap, currCountry) {
                 $("#region").hide()
                 $("#country").show()
                 $("#view").val("Country")
-                console.log(d)
                 updateLineChart(d)
         });
 
-    /**
+
      svg_bar.selectAll("rect" + 1)
-         .data(dataF)
+         .data(finalDataF)
          .enter().append("rect")
          .attr("class", "bar")
-         .attr("fill", '#d25c4d')
+         .attr("fill",  d => {
+             if (currCountry == d.COUNTRY_ID) {
+                 return '#ff2b57'
+             } else {
+                 return '#de213e'
+             }
+         })
          .attr("x", function (d) {
              return xScale(d.COUNTRY_ID);
          })
@@ -147,7 +129,7 @@ function createBarChart(dataSet3, regionMap, currCountry) {
          .attr("height", function (d) {
              return yScale(0) - yScale(d.VALUE);
          });
-    **/
+
     svg_bar.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", -60)
@@ -175,16 +157,13 @@ function updateBarChart(data) {
     let currRegion = undefined
     //let document_id = "SDG_REGION";
     barChartLabelRegionDBCall("SDG_REGION", data.id).then(dataSet => {
-        console.log(dataSet)
         dataSet.forEach(row => {
             regionlist.forEach(elem => {
                 if(elem == row.REGION_ID.trim()) {
                     currRegion = row.REGION_ID
                 }
-                console.log('nxt')
             })
         });
-        console.log(currRegion)
         barChartLabelCountryDBCall("SDG_REGION", currRegion).then(dataSet2 => {
             regionmap.region = currRegion
             dataSet2.forEach(d => {
@@ -193,14 +172,38 @@ function updateBarChart(data) {
             if (document_id in documentIdWithGender) {
                 console.log('shouldnt be here plz')
             } else {
-                console.log(year, indicator_id, document_id)
-                genericDBCall(year, indicator_id, document_id).then(dataSet3 => {
+                queue()
+                    .defer(d3.csv, 'data/inequality.csv')
+                    .await(ready);
+
+                function ready(error, inequalityLabel) {
+                    console.log(inequalityLabel)
                     $("#worldMap").empty();
                     $("#region").empty();
                     $(".legend").empty();
                     $(".d3-tip").remove();
-                    createBarChart(dataSet3, regionmap, data.id);
-                });
+                    inequalityLabel.forEach(d => {
+                        if (d.INDICATOR_ID.includes(document_id)) {
+
+                        }
+                    });
+                    if (indicator_id.includes("XUNIT") || indicator_id.includes("SchBSP") || indicator_id.includes("NY.GDP") || indicator_id== "200101") {
+                        //No male or female differentiation
+                        genericDBCall(year, indicator_id, document_id).then(dataSet3 => {
+                            createBarChart(regionmap, data.id, dataSet3, undefined);
+                        });
+                    } else {
+                        //Male female differention
+                        genericDBCall(year, indicator_id + ".M", document_id).then(maleData => {
+                            genericDBCall(year, indicator_id + ".F", document_id).then(femaleData => {
+                                console.log(maleData)
+                                console.log(femaleData)
+                                createBarChart(regionmap, data.id, maleData, femaleData);
+                            });
+                        });
+                    }
+                }
+
             }
         });
     });

@@ -1,0 +1,48 @@
+INDICATOR_ID,ROOT,FILE,DESCRIPTION
+GER.02.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Gross enrollment ratio, pre-primary, male (%)"
+GER.02.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Gross enrollment ratio, pre-primary, female (%)"
+OAEPG.1.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Percentage of pupils enrolled in primary education who are at least 2 years over-age for their current grade, male (%)"
+OAEPG.1.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Percentage of pupils enrolled in primary education who are at least 2 years over-age for their current grade, female (%)"
+ROFST.1.M.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for children of primary school age, male (%)"""
+ROFST.1.F.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for children of primary school age, female (%)"""
+CR.1.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate, primary education, male (%)"
+CR.1.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate, primary education, female (%)"
+ROFST.2.M.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for adolescents of lower secondary school age, male (%)"
+ROFST.2.F.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for adolescents of lower secondary school age, female (%)"
+CR.2.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate, lower secondary education, male (%)"
+CR.2.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate, lower secondary education, female (%)"
+GTranR.5t8.M,"SDG,EDUN","EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Gross transition ratio from secondary to tertiary education based on students in all secondary programs, male (%)"
+GTranR.5t8.F,"SDG,EDUN","EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Gross transition ratio from secondary to tertiary education based on students in all secondary programs, female (%)"
+ROFST.3.M.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for youth of upper secondary school age, male (%)"
+ROFST.3.F.cp,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Out-of-school rate for youth of upper secondary school age, female (%)"
+CR.3.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate upper secondary education, male (%)"
+CR.3.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Completion rate upper secondary education, female (%)"
+EA.6t8.Ag25t99.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Educational attainment rate completed Bachelor's or equivalent education or higher, population 25+ years, male (%)"
+EA.6t8.Ag25t99.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Educational attainment rate completed Bachelor's or equivalent education or higher, population 25+ years, female (%)"
+MYS.1t8.Ag25t99.M,EDUN,"EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Mean years of schooling (ISCED 1 or higher), population 25+ years, male (%)"
+MYS.1t8.Ag25t99.F,EDUN,"EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Mean years of schooling (ISCED 1 or higher), population 25+ years, female (%)"
+LR.Ag15t24.M,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Youth literacy rate, population 15-24 years, male (%)"
+LR.Ag15t24.F,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL","Youth literacy rate, population 15-24 years, female (%)"
+XUNIT.GDPcap.02.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per pre-primary student as a percentage of GDP per capita
+XUNIT.GDPcap.1.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per primary student as a percentage of GDP per capita
+XUNIT.GDPcap.1.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding per primary student as a percentage of GDP per capita
+XUNIT.GDPcap.2.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per lower secondary student as a percentage of GDP per capita
+XUNIT.GDPcap.2t3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per secondary student as a percentage of GDP per capita
+XUNIT.GDPcap.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding per upper secondary student as a percentage of GDP per capita
+XUNIT.GDPcap.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per upper secondary student as a percentage of GDP per capita
+XUNIT.GDPcap.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,Initial government funding per tertiary student as a percentage of GDP per capita
+XUNIT.GDPcap.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,Initial household funding per tertiary student as a percentage of GDP per capita
+XUNIT.PPPconst.02.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per pre-primary student, constant PPP$"
+XUNIT.PPPconst.1.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per primary student, constant PPP$"
+XUNIT.PPPconst.1.FShh.FFntr,SDG, SDG_DATA_NATIONAL,"Initial household funding per primary student, constant PPP$"
+XUNIT.PPPconst.2.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per lower secondary student, constant PPP$"
+XUNIT.PPPconst.2t3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per secondary student, constant PPP$"
+XUNIT.PPPconst.2t3.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding per secondary student, constant PPP$"
+XUNIT.PPPconst.3.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per upper secondary student, constant PPP$"
+XUNIT.PPPconst.5t8.FSgov.FFntr,SDG,SDG_DATA_NATIONAL,"Initial government funding per tertiary student, constant PPP$"
+XUNIT.PPPconst.5t8.FShh.FFntr,SDG,SDG_DATA_NATIONAL,"Initial household funding per tertiary student, constant PPP$"
+SchBSP.1.Wcomput,"SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL",Proportion of primary schools with access to computers for pedagogical purposes (%)
+"SchBSP.1.WElec,SDG","SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL",Proportion of primary schools with access to electricity (%)â
+"SchBSP.1.WIntern,SDG","SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,EDUN_DATA_REGIONAL",Proportion of primary schools with access to Internet for pedagogical purposes (%)
+"SchBSP.1.WWatA,SDG","SDG,EDUN","SDG_DATA_NATIONAL, SDG_DATA_REGIONAL, EDUN_DATA_NATIONAL,Â EDUN_DATA_REGIONAL",Proportion of primary schools with access to basic drinking water (%)
+NY.GDP.PCAP.CD,DEM,DEM_DATA_NATIONAL,GDP per capita (current US$)
