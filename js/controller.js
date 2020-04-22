@@ -27,7 +27,6 @@ function controller() {
         doc_id = "SDG_DATA_NATIONAL"
         corrDBCall(ind_id, 'correlation').then(
             c_result => {
-            console.log(c_result);
             add_bar_chart(c_result)
             genericDBCall('2018', ind_id, doc_id).then(res_1 => {
                 genericDBCall('2018', ind_2, doc_id).then(res_2 => {
@@ -45,7 +44,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = {}
+        const firebaseConfig = { }
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
@@ -65,7 +64,6 @@ function setupDBConnection() {
  * @param document_id This is the collection for the query
  */
 async function genericDBCall(year, indicator_id, document_id) {
-    console.log(year, indicator_id, document_id)
     var collection = db.collection(document_id)
         .where("INDICATOR_ID", "==", indicator_id)
         .where("YEAR", "==", year);
@@ -88,29 +86,38 @@ async function genericDBCall(year, indicator_id, document_id) {
 }
 
 async function corrDBCall(indicator_id, document_id) {
-    console.log(indicator_id, document_id)
-    var collection = db.collection(document_id)
-        .where("INDICATOR_ID", "==", indicator_id);
-    //The above query gets population data for the year 2015
-    let data = await collection.get().then(function(querySnapshot) {
-        console.log(querySnapshot.size);
-        if (querySnapshot.size > 0) {
-            return querySnapshot.docs.map(function (documentSnapshot) {
-                return documentSnapshot.data(); //Each individual object (country's stat)
-            })
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
+    if (false) {
+        var collection = db.collection(document_id)
+            .where("INDICATOR_ID", "==", indicator_id);
+        //The above query gets population data for the year 2015
+        let data = await collection.get().then(function(querySnapshot) {
+            console.log(querySnapshot.size);
+            if (querySnapshot.size > 0) {
+                return querySnapshot.docs.map(function (documentSnapshot) {
+                    return documentSnapshot.data(); //Each individual object (country's stat)
+                })
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
 
-    return data
+        return data
+    }
 }
 
-
+/***
+ * Makes DB call for the line chart.
+ * Gets list of years for a country for a given indicator
+ * @param indicator_id
+ * @param document_id
+ * @param country
+ * @returns {Promise.<T>}
+ */
 async function lineChartDBCall(indicator_id, document_id, country) {
+
     var collection = db.collection(document_id)
         .where("INDICATOR_ID", "==", indicator_id)
         .where("COUNTRY_ID", "==", country);
@@ -128,6 +135,53 @@ async function lineChartDBCall(indicator_id, document_id, country) {
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
+    return data
+}
 
+/**
+ *  Get region of chosen country
+ * @param regionList
+ * @param document_id
+ * @returns {Promise.<T>}
+ */
+async function barChartLabelRegionDBCall(document_id, country_id) {
+    console.log("bar chart db call")
+    var collection = db.collection(document_id)
+        .where("COUNTRY_ID", "==", country_id);
+    //The above query gets population data for the year 2015
+    let data = await collection.get().then(function(querySnapshot) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data(); //Each individual object (country's stat)
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+    return data
+}
+
+async function barChartLabelCountryDBCall(document_id, region_id) {
+    console.log("bar chart db call")
+    var collection = db.collection(document_id)
+        .where("REGION_ID", "==", region_id);
+    //The above query gets population data for the year 2015
+    let data = await collection.get().then(function(querySnapshot) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs.map(function (documentSnapshot) {
+                return documentSnapshot.data(); //Each individual object (country's stat)
+            })
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
     return data
 }

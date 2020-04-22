@@ -21,30 +21,19 @@ function addFactorsToSelector() {
 $( "#year" ).change(function() {
     //Change view of the current data to country and display the currently selected country
     let view = $("#view").val();
-    if (view == "World") {
-        updateWorldMap();
-    } else if (view === 'Region') {
-        updateRegion();  //TODO I think Priya worked on this?
-    } else if (view === 'Country') {
-        updateCountry();  //TODO I think Priya worked on this?
-    }
+    updateWorldMap();
+    $("#worldMap").show();
+    $("#region").hide();
+    $("#country").hide()
 });
 
 //On change handler for the factors triggers this method
 $( "#factor" ).change(function() {
     //update data and transition colors
-    let view = $("#view").val();
-    console.log(view)
-    if (view === 'World') {
-        console.log("updateWorldMap() is called")
-        updateWorldMap();
-    } else if (view === 'Region') {
-        updateWorldMap();
-        $("#worldMap").show();
-        $("#region").hide();
-        $("#country").hide();
-    } else if (view === 'Country') {
-    }
+    updateWorldMap();
+    $("#worldMap").show();
+    $("#region").hide();
+    $("#country").hide();
 });
 
 //on change handler for the country or region specific views triggers this method
@@ -77,13 +66,4 @@ $( "#view" ).change(function() {
         $("#region").hide();
         $("#worldMap").hide();
     }
-
-});
-
-//on change handler for the country or region specific views triggers this method
-$( "#inputRegion" ).change(function() {
-    //Change view of the current data to country and display the currently selected country
-    $("#country").show();
-    $("#region").hide();
-    $("#worldMap").hide();
 });

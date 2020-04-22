@@ -8,7 +8,8 @@ var legend = null
 function createWorldMap(dataSet) {
   const format = d3.format(',');
   $("#sub-title").text($("#factor option:selected").html());
-
+  console.log('here')
+  $("#head-title").text("Global Distribution");
   // Set tooltips
   const tip = d3.tip()
     .attr('class', 'd3-tip')
@@ -17,7 +18,6 @@ function createWorldMap(dataSet) {
   const margin = {top: 0, right: 0, bottom: 0, left: 0};
   const width = 960 - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
-
   var svg = d3.select('#worldMap')
     .append('svg')
       .attr('class','myMap')
@@ -81,12 +81,14 @@ function createWorldMap(dataSet) {
             .style('stroke-width',0.3);
         })
         .on('click', function(d) {
-            $("#worldMap").hide();
-            $(".legend").hide()
-            $("#viewWorldButton").show();
-            $("#region").show()
-            $("#view").val("Region")
-            updateLineChart(d)
+            if (d.data != "Not available") {
+                $("#worldMap").hide();
+                $(".legend").hide()
+                $("#viewWorldButton").show();
+                $("#region").show()
+                $("#view").val("Region")
+                updateBarChart(d)
+            }
         });
 
     svg.append('path')
@@ -140,7 +142,7 @@ function createLegend(data) {
         .append("g")
         .attr("transform", function (d, i) {
             return "translate(" + margin.left + "," + ((i * 20) + margin.top) + ")";
-        })
+        });
 
     g.append("rect")
         .attr("width", 18)
