@@ -20,7 +20,7 @@ function createLineChart(data) {
     //define the line
     let valueline =  d3.line()
         .x(function(d) { return x(d["YEAR"]); })
-        .y(function(d) { return y(d["VALUE"]); });
+        .y(function(d) { return y(+d["VALUE"]); });
 
     let svg = d3.select("#country")
         .attr("width", width + margin.left + margin.right)

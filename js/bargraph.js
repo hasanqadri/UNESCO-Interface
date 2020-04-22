@@ -40,7 +40,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     console.log(fData)
     if (fData == undefined) {
         finalData.forEach(elem => {
-            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Country', grpValue:elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Country', grpValue:+elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
         });
     } else {
         fData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
@@ -51,12 +51,12 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         });
 
         finalData.forEach(elem => {
-            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Male', grpValue:elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Male', grpValue:+elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
         });
         finalDataF.forEach(elem => {
             groupData.forEach(d => {
                 if (d.key == elem.COUNTRY_ID) {
-                    d.values.push({grpName:'Female', grpValue: elem.VALUE, grpCountry: elem.COUNTRY_ID})
+                    d.values.push({grpName:'Female', grpValue: +elem.VALUE, grpCountry: elem.COUNTRY_ID})
                 }
             })
         });
@@ -64,7 +64,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
 
     console.log(groupData)
 
-    var margin = {top: 20, right: 65, bottom: 40, left: 50},
+    var margin = {top: 20, right: 65, bottom: 60, left: 50},
         width = 1000 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -88,11 +88,11 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var categoriesNames = groupData.map(function(d) { return d.key; });
-    var rateNames       = groupData[0].values.map(function(d) { return d.grpName; });
+    var rateNames = groupData[0].values.map(function(d) { return d.grpName; });
 
     x0.domain(categoriesNames);
     x1.domain(rateNames).rangeRound([0, x0.bandwidth()]);
-    y.domain([0, d3.max(groupData, function(key) { return d3.max(key.values, function(d) { return d.grpValue; }); })]);
+    y.domain([0, getMax(groupData)]);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -213,8 +213,8 @@ function updateBarChart(data) {
 
     console.log('here')
     let year = $("#year").val();
-    let indicator_id = $("#factor").val().split(",")[0];
-    let document_id = $("#factor").val().split(",")[1];
+    var indicator_id = $("#factor").val().split(",")[0];
+    var document_id = $("#factor").val().split(",")[1];
     let regionmap = {};
     let currRegion = undefined
     //let document_id = "SDG_REGION";
@@ -244,26 +244,30 @@ function updateBarChart(data) {
                     $("#region").empty();
                     $(".legend").empty();
                     $(".d3-tip").remove();
-                    inequalityLabel.forEach(d => {
-                        if (d.INDICATOR_ID.includes(document_id)) {
-
-                        }
-                    });
-                    if (indicator_id.includes("XUNIT") || indicator_id.includes("SchBSP") || indicator_id.includes("NY.GDP") || indicator_id== "200101") {
+                    if (indicator_id.includes("XUNIT") || indicator_id.includes("SchBSP") || indicator_id.includes("NY.GDP") || indicator_id== "200101" || indicator_id === "ROFST.3.F.cp") {
                         //No male or female differentiation
                         genericDBCall(year, indicator_id, document_id).then(dataSet3 => {
                             createBarChart(regionmap, data.id, dataSet3, undefined);
                         });
                     } else {
                         //Male female differention
-                        genericDBCall(year, indicator_id + ".M", document_id).then(maleData => {
-                            genericDBCall(year, indicator_id + ".F", document_id).then(femaleData => {
+                        console.log(indicator_id)
+                        if (indicator_id !== "ROFST.1.cp" && indicator_id !== "ROFST.2.cp") {
+                            genericDBCall(year, indicator_id + ".M", document_id).then(maleData => {
+                                genericDBCall(year, indicator_id + ".F", document_id).then(femaleData => {
                                 createBarChart(regionmap, data.id, maleData, femaleData);
+                                });
                             });
-                        });
+                        } else {
+                            console.log(indicator_id.slice(0,7) + ".M" + indicator_id.slice(7))
+                            genericDBCall(year, indicator_id.slice(0,7) + ".M" + indicator_id.slice(7), document_id).then(maleData => {
+                                genericDBCall(year, indicator_id.slice(0,7) + ".F" + indicator_id.slice(7), document_id).then(femaleData => {
+                                createBarChart(regionmap, data.id, maleData, femaleData);
+                                });
+                            });
+                        }
                     }
                 }
-
             }
         });
     });
@@ -294,3 +298,16 @@ function updateBarChart(data) {
  .html(d => `<strong>Value: </strong><span class='details'>${d.VALUE}<br></span>`);
 
  **/
+function getMax(data) {
+    let myMax = 0
+    data.forEach(elem => {
+        elem.values.forEach(val => {
+            if (myMax < val.grpValue) {
+                myMax = val.grpValue
+            }
+        })
+    });
+    console.log(myMax)
+    return myMax;
+    //d3.max(groupData, function(key) { return d3.max(key.values, function(d) { console.log(d.grpValue); return d.grpValue; }); })
+}

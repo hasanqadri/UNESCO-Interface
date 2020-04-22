@@ -11,7 +11,9 @@ function addFactorsToSelector() {
             let labelIndicator = label["INDICATOR_ID"]
             let labelDocument = label["FILE"].split(",")[0]
             let labelName = label["DESCRIPTION"]
-            $('#factor').append(`<option value="${labelIndicator + ',' + labelDocument}">${labelName}</option>`);    //Adds option to factor selector
+            if (labelIndicator !== "NY.GDP.PCAP.CD") {
+                $('#factor').append(`<option value="${labelIndicator + ',' + labelDocument}">${labelName}</option>`);    //Adds option to factor selector
+            }
         })
     }
 }
