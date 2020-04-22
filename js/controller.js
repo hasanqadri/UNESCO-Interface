@@ -27,9 +27,10 @@ function controller() {
         doc_id = "SDG_DATA_NATIONAL"
         corrDBCall(ind_id, 'correlation').then(
             c_result => {
-            add_bar_chart(c_result)
+            get_metadata()
             genericDBCall('2018', ind_id, doc_id).then(res_1 => {
                 genericDBCall('2018', ind_2, doc_id).then(res_2 => {
+                add_bar_chart(c_result)
                 add_scatter_chart(res_1, res_2)
             });
             });
@@ -44,7 +45,7 @@ function setupDBConnection() {
     } else {
         // Set the configuration for your app
         // TODO: See slack general for the config to be pasted below, do not push to github with this not removed
-        const firebaseConfig = { }
+        const firebaseConfig = {}
         firebase.initializeApp(firebaseConfig);
         // Get a reference to the database service
         //How to retrieve data with firestore: https://firebase.google.com/docs/database/admin/retrieve-data
