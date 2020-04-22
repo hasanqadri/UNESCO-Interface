@@ -299,7 +299,7 @@ function updateBarChart(data) {
 
  **/
 function getMax(data) {
-    let myMax = 0
+    var myMax = 0
     data.forEach(elem => {
         elem.values.forEach(val => {
             if (myMax < val.grpValue) {
@@ -311,3 +311,4 @@ function getMax(data) {
     return myMax;
     //d3.max(groupData, function(key) { return d3.max(key.values, function(d) { console.log(d.grpValue); return d.grpValue; }); })
 }
+//Used https://bl.ocks.org/LyssenkoAlex/21df1ce37906bdb614bbf4159618699d as a template for this chart
