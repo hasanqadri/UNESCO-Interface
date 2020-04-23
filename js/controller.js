@@ -8,6 +8,9 @@ var db = null;
  * this method is only called at the initiation of the app - make calls to genericDBCall directly elsewhere in the app
  */
 function controller() {
+    $("#region").hide()
+    $("#country").hide()
+
     addFactorsToSelector();
     db = setupDBConnection();
     if (db == null) {
