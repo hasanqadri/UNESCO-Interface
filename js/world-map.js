@@ -73,13 +73,15 @@ function createWorldMap(dataSet) {
             tip.show(d);
           d3.select(this)
             .style('opacity', 1)
-            .style('stroke-width', 3);
+            .style('stroke-width', 3)
+            .style('cursor', 'pointer');
         })
         .on('mouseout', function(d){
           tip.hide(d);
           d3.select(this)
             .style('opacity', 0.8)
-            .style('stroke-width',0.3);
+            .style('stroke-width',0.3)
+            .style('cursor', 'default');
         })
         .on('click', function(d) {
             if (d.data != "Not available") {
@@ -130,7 +132,7 @@ function createLegend(data) {
     var margin = {top: 20,
             right: 50,
             bottom: 30,
-            left: 60},
+            left: 10},
         width =200,
         height = 200;
 
