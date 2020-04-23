@@ -194,7 +194,7 @@ h1 {
 
 .fontCustom {
     font-family: Arial Black;
-    font-size: 46px;
+    font-size: 36px;
 }
 
 .fontTitle {
@@ -312,10 +312,9 @@ path.domain {
 
 /* Legend Position Style */
 .legend {
-
     position: absolute;
-    bottom: 80px;
-    left: 50px;
+    bottom: 70px;
+    right: 0px;
 }
 
 
