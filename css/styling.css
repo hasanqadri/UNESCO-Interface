@@ -404,5 +404,6 @@ svg#correlationChart g.barchart rect.bar-blue{
 
 svg#correlationChart g.barchart rect.bar-blue:hover {
   fill: brown;
+  cursor: pointer;
 }
 
