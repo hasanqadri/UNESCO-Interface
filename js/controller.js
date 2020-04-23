@@ -83,6 +83,7 @@ async function genericDBCall(year, indicator_id, document_id) {
             })
         } else {
             // doc.data() will be undefined in this case
+            $("#sub-title").text("Data not found for " + $("#factor option:selected").html() + " for the year of " + $("#year").val());
             console.log("No such document!");
         }
     }).catch(function(error) {

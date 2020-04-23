@@ -23,7 +23,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     const tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
-        .html(d => `<strong>Country: </strong><span class='details'>${getCountryName(d.grpCountry)}<br></span><strong>Value: </strong><span class='details'>${d.grpValue}<br></span>`);
+        .html(d => `<strong>Country: </strong><span class='details'>${getCountryName(d.COUNTRY_NAME)}<br></span><strong>Value: </strong><span class='details'>${d.VALUE}<br></span>`);
 
     let finalData = []
     let finalDataF = []
@@ -40,7 +40,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     console.log(fData)
     if (fData == undefined) {
         finalData.forEach(elem => {
-            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Country', grpValue:+elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+            groupData.push({key: elem.COUNTRY_ID, values: [{COUNTRY_ID:'Country', VALUE:+elem.VALUE, COUNTRY_NAME: elem.COUNTRY_ID}]})
         });
     } else {
         fData.sort((a, b) => (a.COUNTRY_ID > b.COUNTRY_ID) ? 1 : -1)
@@ -51,12 +51,12 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         });
 
         finalData.forEach(elem => {
-            groupData.push({key: elem.COUNTRY_ID, values: [{grpName:'Male', grpValue:+elem.VALUE, grpCountry: elem.COUNTRY_ID}]})
+            groupData.push({key: elem.COUNTRY_ID, values: [{COUNTRY_ID:'Male', VALUE:+elem.VALUE, COUNTRY_NAME: elem.COUNTRY_ID}]})
         });
         finalDataF.forEach(elem => {
             groupData.forEach(d => {
                 if (d.key == elem.COUNTRY_ID) {
-                    d.values.push({grpName:'Female', grpValue: +elem.VALUE, grpCountry: elem.COUNTRY_ID})
+                    d.values.push({COUNTRY_ID:'Female', VALUE: +elem.VALUE, COUNTRY_NAME: elem.COUNTRY_ID})
                 }
             })
         });
@@ -75,7 +75,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
     var y   = d3.scaleLinear().rangeRound([height, 0]);
 
     var xAxis = d3.axisBottom().scale(x0)
-        .tickValues(groupData.map(d=>d.key));
+        .tickValues(groupData.map(d => d.key));
 
     var yAxis = d3.axisLeft().scale(y);
 
@@ -88,7 +88,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var categoriesNames = groupData.map(function(d) { return d.key; });
-    var rateNames = groupData[0].values.map(function(d) { return d.grpName; });
+    var rateNames = groupData[0].values.map(function(d) { return d.COUNTRY_ID; });
 
     x0.domain(categoriesNames);
     x1.domain(rateNames).rangeRound([0, x0.bandwidth()]);
@@ -98,7 +98,6 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .attr("class", "x axis")
         .attr("transform", "translate(2," + height + ")")
         .call(xAxis);
-
 
     svg.append("g")
         .attr("class", "y axis")
@@ -125,12 +124,12 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .data(function(d) { return d.values; })
         .enter().append("rect")
         .attr("width", x1.bandwidth())
-        .attr("x", function(d) { return x1(d.grpName); })
+        .attr("x", function(d) { return x1(d.COUNTRY_ID); })
         .style("fill", function(d) {
-            return color(d.grpName)
+            return color(d.COUNTRY_ID)
         })
         .style('opacity', d => {
-            if (d.grpCountry == currCountry) {
+            if (d.COUNTRY_NAME == currCountry) {
                 return 1
             }
             return .3
@@ -147,14 +146,14 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .on("mouseout", function(d) {
             tip.hide(d)
             d3.select(this)
-                .style("fill", color(d.grpName))
+                .style("fill", color(d.COUNTRY_ID))
                 .style('stroke-width',3);
         })
         .on('click', d => {
             $("#region").hide()
             $("#country").show()
             $("#view").val("Country")
-            updateLineChart(d.grpName, d.grpCountry )
+            updateLineChart(d.COUNTRY_ID, d.COUNTRY_NAME )
 
         });
 
@@ -163,10 +162,9 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .transition()
         .delay(function (d) {return Math.random()*1000;})
         .duration(1000)
-        .attr("y", function(d) { return y(d.grpValue); })
-        .attr("height", function(d) { return height - y(d.grpValue); });
+        .attr("y", function(d) { return y(d.VALUE); })
+        .attr("height", function(d) { return height - y(d.VALUE); });
 
-    //yaxislabelfig1
     svg.append("text")
         .attr("x", -height/2)
         .attr("y", -70).attr("transform", "rotate(-90)")
@@ -176,7 +174,6 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .text($("#factor option:selected").html());
 
 
-    //xaxislabelfig1
     svg.append("text")
         .attr("x", width/2)
         .attr("y", height+35)
@@ -184,9 +181,9 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .style("font-family","Arial")
         .style("text-anchor", "middle")
         .text("Country");
-    //Legend
+
     var legend = svg.selectAll(".legend")
-        .data(groupData[0].values.map(function(d) { return d.grpName; }).reverse())
+        .data(groupData[0].values.map(function(d) { return d.COUNTRY_ID; }).reverse())
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; })
@@ -302,13 +299,13 @@ function getMax(data) {
     var myMax = 0
     data.forEach(elem => {
         elem.values.forEach(val => {
-            if (myMax < val.grpValue) {
-                myMax = val.grpValue
+            if (myMax < val.VALUE) {
+                myMax = val.VALUE
             }
         })
     });
     console.log(myMax)
     return myMax;
-    //d3.max(groupData, function(key) { return d3.max(key.values, function(d) { console.log(d.grpValue); return d.grpValue; }); })
+    //d3.max(groupData, function(key) { return d3.max(key.values, function(d) { console.log(d.VALUE); return d.VALUE; }); })
 }
 //Used https://bl.ocks.org/LyssenkoAlex/21df1ce37906bdb614bbf4159618699d as a template for this chart

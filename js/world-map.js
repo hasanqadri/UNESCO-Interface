@@ -8,6 +8,7 @@ var legend = null
 function createWorldMap(dataSet) {
   const format = d3.format(',');
   $("#sub-title").text($("#factor option:selected").html());
+    $("#dataInfo").show();
 
   $("#head-title").text("Global Distribution");
   // Set tooltips
@@ -87,6 +88,8 @@ function createWorldMap(dataSet) {
                 $("#viewWorldButton").show();
                 $("#region").show()
                 $("#view").val("Region")
+                $("#dataInfo").hide();
+
                 updateBarChart(d)
             }
         });
@@ -109,6 +112,7 @@ function updateWorldMap() {
     let document_id = $("#factor").val().split(",")[1];
     const dataById = {};
     genericDBCall(year, indicator_id, document_id).then(dataSet => {
+
         $("#worldMap").empty();
         $(".legend").empty();
         $(".d3-tip").remove();

@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
     <!-- Navbar (sit on top) -->
-    <div class="w3-top" >
+    <div class="w3-top">
         <ul class="w3-navbar w3-cyan w3-wide w3-padding-0 w3-card-2 ">
             <font color="white" font-family = "Impact, Charcoal, sans-serif">
                 <h3><img src = "./data/logo.png" width="70px" height="40px" class="w3-margin-bot-logo">UNESCO Data Exploration Tool</h3></font>
@@ -29,14 +29,16 @@
     </div>
 
     <!-- Selector for years -->
-    <div  style="float: left; width:100%; display:inline;" class = "w3-margin-top-custom raisedbox">
+    <div  style="width:100%; display:inline;" class = "w3-margin-top-custom raisedbox ">
         <button id="viewWorldButton" type="button" class="btn btn-primary btn-sm w3-margin-left-custom " style="display:none">Return to World View</button>
-
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="factor">
             <option value="NY.GDP.PCAP.CD,DEM_DATA_NATIONAL">GDP per capita (USD)</option>
             <!-- <option value="200101,DEM_DATA_NATIONAL">Population</option>   EXAMPLE  -->
         </select>
         <select style="width:200px;" class = "w3-select w3-margin-left-custom w3-margin-top-custom1" id="year">
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
             <option value="2015">2015</option>
             <option value="2014">2014</option>
             <option value="2013">2013</option>
@@ -63,11 +65,12 @@
     </div>
 
     <!-- Holds the left and right divs -->
-    <div class = "container " style = "width: 100%; clear:both; ">
+    <div style="width: 100%; clear:both; display:inline-block; top:800px">
 
         <!-- Left div -->
-        <div class="innerContainer w3-card-4">
-            <h1 class="w3-margin-top  fontCustom w3-margin-bottom w3-center" id="head-title">Global Distribution</h1>
+        <div class="w3-card-4" >
+            <div style="width:100%;visibility:visible;display:block;padding-top: 150px">
+            <h1 class="w3-margin-top  fontCustom w3-margin-top w3-center" id="head-title">Global Distribution</h1>
             <h3 class="w3-margin-top w3-center" id="sub-title"></h3>
             <div class="lastLegend">
                 <!--We mess with the below svg for our drilldowns -->
@@ -76,11 +79,20 @@
                 <svg id="country" style="display:none"></svg> <!-- TODO add country-->
             </div>
             <div class="w3-margin-left w3-padding-left"><i>Data courtesy of <a href="http://data.uis.unesco.org/" target="_blank">UNESCO</a>, retrieved 3/20/2020</i></div>
+
+            <div id="dataInfo" style="margin-left:30px;">
+                This is a tool created to visualize trends in the UN data. This dataset was launched in 2005 to provide free access to global statistics to educate users about the importance of statistics for evidence-based policy and decision-making.<br>
+                <Strong>World map view:</Strong> Choropleth map of the world based on the selected factor from the UNESCO data. Clicking on a colored country in the world map visualization will lead you to the regional comparison visualization.<br>
+                <Strong>Regional comparisons:</Strong> This view compares countries in a region based on a given UNESCO variable in a bar chart form. Clicking on a region will lead you to the country view.<br>
+                <Strong>Country view:</Strong> Shows how the UNESCO variable has changed over time for each country.<br>
+                <Strong>Correlation graph:</Strong> Shows the correlations between input metrics like government funding and household expenditure on education and output indicators like Mean Literacy Rate or even GDP per capita. This graph provides an overview of the variables that most significantly affect or correlate with the target variable.<br>
+            </div>
+            </div>
         </div>
 
         <!-- Right div -->
-        <div class="innerContainer2 w3-card-4">
-            <div id="right-alt" style="width:100%;visibility:visible;display:block;">
+        <div class="w3-card-4" style="margin-bottom:20px">
+            <div style="width:100%;visibility:visible;display:block;">
                 <h5 class="w3-center w3-margin-top fontTitleSmall"></h5>
                 <div id="grid" class="w3-padding-left w3-padding-top w3-center"></div>
 
@@ -88,7 +100,7 @@
                 <!--Shubhi's idea here? -->
                 <div id="selector"></div>
                 <svg id="correlationChart"></svg>
-                <svg id="scatterChart"></svg>
+                <svg id="scatterChart" style="float:right"></svg>
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 currentCountry = null;
 function createLineChart(data) {
+    $("#dataInfo").hide();
 
     let cName = data[0]["COUNTRY_ID"]
 
