@@ -64,34 +64,34 @@ function createBarChart(regionMap, currCountry, mData, fData) {
 
     console.log(groupData)
 
-    var margin = {top: 20, right: 65, bottom: 60, left: 100},
+    let margin = {top: 20, right: 65, bottom: 60, left: 100},
         width = 1000 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
 
 
-    var x0  = d3.scaleBand().rangeRound([0, width], .5);
-    var x1  = d3.scaleBand();
-    var y   = d3.scaleLinear().rangeRound([height, 0]);
+    let x0  = d3.scaleBand().rangeRound([0, width], .5);
+    let x1  = d3.scaleBand();
+    let y   = d3.scaleLinear().rangeRound([height, 0]);
 
-    var xAxis = d3.axisBottom().scale(x0)
+    let xAxis = d3.axisBottom().scale(x0)
         .tickValues(groupData.map(d => d.key));
 
-    var yAxis = d3.axisLeft().scale(y);
+    let yAxis = d3.axisLeft().scale(y);
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    var svg = d3.select('#region')
+    let svg = d3.select('#region')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var categoriesNames = groupData.map(function(d) { return d.key; });
-    var rateNames = groupData[0].values.map(function(d) { return d.COUNTRY_ID; });
+    let cNames = groupData.map(d => { return d.key; });
+    let rNames = groupData[0].values.map(d => { return d.COUNTRY_ID; });
 
-    x0.domain(categoriesNames);
-    x1.domain(rateNames).rangeRound([0, x0.bandwidth()]);
+    x0.domain(cNames);
+    x1.domain(rNames).rangeRound([0, x0.bandwidth()]);
     y.domain([0, getMax(groupData)]);
 
     svg.append("g")
@@ -118,14 +118,14 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .data(groupData)
         .enter().append("g")
         .attr("class", "g")
-        .attr("transform",function(d) { return "translate(" + x0(d.key) + ",0)"; });
+        .attr("transform", d => { return "translate(" + x0(d.key) + ",0)"; });
 
     slice.selectAll("rect")
-        .data(function(d) { return d.values; })
+        .data( d => { return d.values; })
         .enter().append("rect")
         .attr("width", x1.bandwidth())
-        .attr("x", function(d) { return x1(d.COUNTRY_ID); })
-        .style("fill", function(d) {
+        .attr("x", d => { return x1(d.COUNTRY_ID); })
+        .style("fill", d => {
             return color(d.COUNTRY_ID)
         })
         .style('opacity', d => {
@@ -134,16 +134,16 @@ function createBarChart(regionMap, currCountry, mData, fData) {
             }
             return .3
         })
-        .attr("y", function(d) { return y(0); })
-        .attr("height", function(d) { return height - y(0); })
-        .on("mouseover", function(d) {
+        .attr("y", d => { return y(0); })
+        .attr("height", d => { return height - y(0); })
+        .on("mouseover", d => {
             console.log(d)
             tip.show(d)
             d3.select(this)
                 .style("fill", "red")
                 .style('stroke-width', .3);
         })
-        .on("mouseout", function(d) {
+        .on("mouseout", d => {
             tip.hide(d)
             d3.select(this)
                 .style("fill", color(d.COUNTRY_ID))
@@ -162,8 +162,8 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .transition()
         .delay(function (d) {return Math.random()*1000;})
         .duration(1000)
-        .attr("y", function(d) { return y(d.VALUE); })
-        .attr("height", function(d) { return height - y(d.VALUE); });
+        .attr("y", d => { return y(d.VALUE); })
+        .attr("height", d => { return height - y(d.VALUE); });
 
     svg.append("text")
         .attr("x", -height/2)
@@ -183,7 +183,7 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .text("Country");
 
     var legend = svg.selectAll(".legend")
-        .data(groupData[0].values.map(function(d) { return d.COUNTRY_ID; }).reverse())
+        .data(groupData[0].values.map(d => { return d.COUNTRY_ID; }).reverse())
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; })
@@ -193,14 +193,14 @@ function createBarChart(regionMap, currCountry, mData, fData) {
         .attr("x", width+45)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", function(d) { return color(d); });
+        .style("fill", d => { return color(d); });
 
     legend.append("text")
         .attr("x", width + 40)
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
-        .text(function(d) {return d; });
+        .text(d => {return d; });
 
     legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
 
@@ -271,18 +271,18 @@ function updateBarChart(data) {
 }
 
 /***
- .on('mouseover',function(d){
+ .on('mouseover',d =>{
             console.log(d)
             tip.show(d)
             d3.select(this)
                 .style('opacity', .5)
                 .style('stroke-width', .3);
-        }).on('mouseout', function(d){
+        }).on('mouseout', d =>{
             tip.hide(d)
             d3.select(this)
                 .style('opacity', 1)
                 .style('stroke-width',3);
-        }).on('click', function(d) {
+        }).on('click', d => {
             $("#region").hide()
             $("#country").show()
             $("#view").val("Country")
@@ -306,6 +306,6 @@ function getMax(data) {
     });
     console.log(myMax)
     return myMax;
-    //d3.max(groupData, function(key) { return d3.max(key.values, function(d) { console.log(d.VALUE); return d.VALUE; }); })
+    //d3.max(groupData, function(key) { return d3.max(key.values, d => { console.log(d.VALUE); return d.VALUE; }); })
 }
 //Used https://bl.ocks.org/LyssenkoAlex/21df1ce37906bdb614bbf4159618699d as a template for this chart
