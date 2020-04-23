@@ -128,7 +128,7 @@ function createLegend(data) {
 
     //Instantiate svg
     var margin = {top: 20,
-            right: 90,
+            right: 50,
             bottom: 30,
             left: 60},
         width =200,
