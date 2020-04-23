@@ -312,11 +312,10 @@ path.domain {
 
 /* Legend Position Style */
 .legend {
-    display: flex;
-    flex-flow:row;
+
     position: absolute;
     bottom: 80px;
-    left: 950px;
+    left: 50px;
 }
 
 

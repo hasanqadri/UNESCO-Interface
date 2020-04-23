@@ -68,12 +68,13 @@
     <div style="width: 100%; clear:both; display:inline-block; top:800px">
 
         <!-- Left div -->
-        <div class="w3-card-4" >
+        <div class="w3-card-4 " >
             <div style="width:100%;visibility:visible;display:block;padding-top: 150px">
             <h1 class="w3-margin-top  fontCustom w3-margin-top w3-center" id="head-title">Global Distribution</h1>
             <h3 class="w3-margin-top w3-center" id="sub-title"></h3>
-            <div class="lastLegend">
+            <div class="lastLegend firstDiv">
                 <!--We mess with the below svg for our drilldowns -->
+                <svg id="myLegend" class="myLegend"></svg>
                 <svg id="worldMap" preserveAspectRatio="xMidYMid" viewBox="0 -80 1150 650"></svg>
                 <svg id="region" style="display:none" ></svg> <!--TODO add regions-->
                 <svg id="country" style="display:none"></svg> <!-- TODO add country-->

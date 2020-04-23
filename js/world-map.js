@@ -123,7 +123,7 @@ function updateWorldMap() {
 
 
 function createLegend(data) {
-
+    console.log(data)
     legendText = [0,1,2,3,4,5,6,7,8]
 
     //Instantiate svg
@@ -131,11 +131,11 @@ function createLegend(data) {
             right: 90,
             bottom: 30,
             left: 60},
-        width = 440 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width =200,
+        height = 200;
 
     // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-    legend = d3.select(".innerContainer").append("svg")
+    legend = d3.select(".lastLegend").append('svg')
         .attr("class", "legend")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -145,7 +145,7 @@ function createLegend(data) {
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-            return "translate(" + margin.left + "," + ((i * 20) + margin.top) + ")";
+            return "translate(" + 0 + "," + ((i * 20) + margin.top) + ")";
         });
 
     g.append("rect")
