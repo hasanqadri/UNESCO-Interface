@@ -132,7 +132,7 @@ function createLegend(data) {
     var margin = {top: 20,
             right: 50,
             bottom: 30,
-            left: 60},
+            left: 10},
         width =200,
         height = 200;
 
