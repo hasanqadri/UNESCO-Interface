@@ -140,6 +140,8 @@ async function lineChartDBCall(indicator_id, document_id, country) {
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
+            $("#sub-title").text("Data not found for " + $("#factor option:selected").html());
+
         }
     }).catch(function(error) {
         console.log("Error getting document:", error);
